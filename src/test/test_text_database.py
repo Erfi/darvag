@@ -13,7 +13,7 @@ class TextDatabaseTest(unittest.TestCase):
         self.assertIsNotNone(db)
 
     def test_insert(self):
-        entry = Dictionary_Entry(from_lang='english', to_lang='german', key='Cold', value='kalt',
+        entry = Dictionary_Entry(from_lang='english', to_lang='german', value='kalt',
                                  example='Die wasser ist kalt.')
         self.db.insert(entry)
 
