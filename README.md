@@ -5,8 +5,3 @@ Ultimately there will also be an analytics componenet added to view user's progr
 --- 1:57pm Thursday July 18 2019 ---
 Example of using Postman to interact with the API
 ![Postman: Translation form german to english](https://github.com/Erfi/german-api/blob/master/static/Current%20State.png)
-
-
-Django Tutorials:
-
-[Vitor Freitas](https://simpleisbetterthancomplex.com/series/2017/09/04/a-complete-beginners-guide-to-django-part-1.html#starting-a-new-project)
