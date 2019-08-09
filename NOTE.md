@@ -27,6 +27,53 @@ Add the app in the projects *settings.py* under *INSTALLED_APPS*
 
 ---
 
+Creating the database migration script (SQlite which comes eith python):
 
+`python manage.py makemigrations`
 
+(OPTIONAL) you can view the migration to be applied (in SQL) using:
+
+`python manage.py sqlmigrate flashcard 0001` 'flashcard' is the app's name
+
+Applying the migration:
+
+`python manage.py migrate`
+
+Opening interactive python shell with project loaded:
+
+ `python manage.py shell`
+
+---
+
+Useful query syntax: ('Board' is a model name)
+
+Create:
+
+`board = Board()`
+
+Save: 
+
+`board.save()`
+
+Create and Save:
+
+`Board.objects.create(name='...', description='...')`
+
+List:
+
+`Board.objects.all()`
+
+Select:
+
+`Board.objects.get(id=1)`
+
+`Board.objects.get(name='Django)`
+
+---
+
+To use templates:
+
+- create a folder called `templates` where the `manage.py` is
+- In the projects `settings.py` under `TEMPLATES` set `DIRS` to `os.path.join(BASE_DIR, 'templates')` or equivalent
+- 
 

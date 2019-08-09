@@ -1,5 +1,11 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from flashcard.models import Entry
+
 
 def home(request):
-    return HttpResponse('Hello, World!')
+    entries = Entry.objects.all()
+    return render(request, 'home.html', {'entries': entries})
+
+
+
