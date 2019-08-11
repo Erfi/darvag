@@ -75,5 +75,28 @@ To use templates:
 
 - create a folder called `templates` where the `manage.py` is
 - In the projects `settings.py` under `TEMPLATES` set `DIRS` to `os.path.join(BASE_DIR, 'templates')` or equivalent
-- 
+- Add `home.html` file in the templates folder
+- use the Django Templating Language to dynamically create/update HTML code (e.g.):
+    - `{% for entry in entries %}
+            <tr>
+                <td>{{ entry.from_lang }}</td>
+            </tr>
+        {% endfor %}`
+- in `views.py` return `render` function to provide the `entries`: 
+    - `return render(request, 'home.html', {'entries': entries})`   
+    
+---
+
+Testing
+
+- use `from django.test import TestCase` in project's `test.py`
+- use `from django.urls import reverse` (e.g.): 
+    - `url = reverse('home') #this is the 'name' field in the urls.py for a url`
+- run tests using: `python manage.py test`
+
+---
+
+
+
+
 

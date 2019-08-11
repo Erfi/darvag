@@ -22,6 +22,7 @@
                     <th>Translation</th>
                     <th>Example</th>
                     <th>User</th>
+                    <th>Date Added</th>
                 </thead>
                 <tbody>
                 {% for entry in entries %}
@@ -32,6 +33,7 @@
                         <td>{{ entry.to_word }}</td>
                         <td>{{ entry.from_example }}</td>
                         <td>{{ entry.created_by }}</td>
+                        <td>{{ entry.created_at }}</td>
                     </tr>
                 {% endfor %}
                 </tbody>
