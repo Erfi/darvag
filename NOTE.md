@@ -96,7 +96,16 @@ Testing
 
 ---
 
+Static
 
-
+- Make a folder called `static` in the same place as `manage.py`
+- Make another folder in the `static` called `css`
+- Add your (bootstrap) css and js files to the folders
+- In project's `settings.py` after `STATIC_URL` add:
+    - `STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'),]`
+- In your .html templates add to the `<head>` section:
+    - `<link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">`
+    - `<script src="{% static 'js/bootstrap.min.js' %}"></script>`
+    
 
 
