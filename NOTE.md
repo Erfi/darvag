@@ -108,4 +108,21 @@ Static
     - `<script src="{% static 'js/bootstrap.min.js' %}"></script>`
     
 
+---
+
+Admin Account
+
+- Make an admin account using `python manage.py createsuperuser` and follow the instructions 
+- You can then sign in at `http://127.0.0.1:8000/admin/`
+- To add your model to the admin:
+    - In your app's `admin.py` add : `admin.site.register(Board)` (Board is your model (class) name)
+    
+---
+
+URLs
+
+- Use angled brackets to capture data from the urls e.g. `path('articles/<int:year>/', views.year_archive)`
+- more on URLs and how to make your own converter or use regex at: [Django URL Dispatcher](https://docs.djangoproject.com/en/2.2/topics/http/urls/)
+
+---
 

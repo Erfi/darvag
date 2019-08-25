@@ -20,4 +20,5 @@ from flashcard import views
 urlpatterns = [
     path('', views.home, name='home'),
     path('admin/', admin.site.urls),
+    path('entry/<str:from_lang>/', views.lang_entry, name='lang_entry')
 ]

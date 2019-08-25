@@ -8,4 +8,9 @@ def home(request):
     return render(request, 'home.html', {'entries': entries})
 
 
+def lang_entry(request, from_lang):
+    entries = Entry.objects.filter(from_lang=from_lang)
+    return render(request, 'home.html', {'entries': entries})
+
+
 
