@@ -125,4 +125,13 @@ URLs
 - more on URLs and how to make your own converter or use regex at: [Django URL Dispatcher](https://docs.djangoproject.com/en/2.2/topics/http/urls/)
 
 ---
+Modular Templates
+
+- create a `base.html` with place holders using:
+    - `{%block blockname %} optional content {% endblock %}`
+- extend `base.html`:
+    - in `home.html` add `{% extends 'base.html' %}` to the top
+    - in `home.html` add your content between `{%block blockname %} home content {% endblock %}` tags
+- You can add another .html file using `{% include 'another.html' %}` in between *block* tags
+    
 
