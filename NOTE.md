@@ -133,5 +133,12 @@ Modular Templates
     - in `home.html` add `{% extends 'base.html' %}` to the top
     - in `home.html` add your content between `{%block blockname %} home content {% endblock %}` tags
 - You can add another .html file using `{% include 'another.html' %}` in between *block* tags
+
+---
+Forms
+
+Django has a forms API. Use it.
+
+
     
 

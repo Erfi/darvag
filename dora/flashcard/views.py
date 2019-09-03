@@ -13,4 +13,8 @@ def lang_entry(request, from_lang):
     return render(request, 'home.html', {'entries': entries})
 
 
+def add_entry(request):
+    return render(request, 'entry_form.html')
+
+
 

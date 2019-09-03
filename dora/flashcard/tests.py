@@ -1,7 +1,7 @@
 from django.test import TestCase
 from django.urls import reverse, resolve
 from django.contrib.auth.models import User
-from flashcard.views import home, lang_entry
+from flashcard.views import home, lang_entry, add_entry
 from flashcard.models import Entry
 
 
@@ -39,3 +39,14 @@ class EntryPageTests(TestCase):
         self.assertEquals(view.func, lang_entry)
 
 
+class EntryFormTests(TestCase):
+
+    def test_entry_form_url_resolves_add_entry_view(self):
+        view = resolve('/entry/add/')
+        self.assertEquals(view.func, add_entry)
+
+
+    def test_add_entry_view_status_code(self):
+        url = reverse('add_entry')
+        response = self.client.get(url)
+        self.assertEquals(response.status_code, 200)
