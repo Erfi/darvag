@@ -137,7 +137,10 @@ Modular Templates
 ---
 Forms
 
-Django has a forms API. Use it.
+Django has a forms API. **Use it**. It validates (front and backend) in addition to having modelforms.
+
+
+
 
 
     
