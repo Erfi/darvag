@@ -3,6 +3,7 @@ from django.urls import reverse, resolve
 from django.contrib.auth.models import User
 from flashcard.views import home, lang_entry, add_entry
 from flashcard.models import Entry
+from flashcard.forms import NewEntryForm
 
 
 class HomeTests(TestCase):
@@ -50,3 +51,11 @@ class EntryFormTests(TestCase):
         url = reverse('add_entry')
         response = self.client.get(url)
         self.assertEquals(response.status_code, 200)
+
+    def test_contains_form(self):
+        url = reverse('add_entry')
+        response = self.client.get(url)
+        form = response.context.get('form')
+        self.assertIsInstance(form, NewEntryForm)
+
+

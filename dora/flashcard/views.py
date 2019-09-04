@@ -30,7 +30,7 @@ def add_entry(request):
             return redirect('home')
     else:
         form = NewEntryForm()
-    return render(request, 'entry_form.html', {'form': form})
+    return render(request, 'new_entry_form.html', {'form': form})
 
 
 
