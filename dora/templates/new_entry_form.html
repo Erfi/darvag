@@ -3,9 +3,14 @@
 {% block title %} Add new entry {% endblock %}
 
 {% block content %}
-    <form method="post">
-        {% csrf_token %}
-        {% include 'includes/form.html' %}
-        <button type="submit" class="btn btn-success">Save</button>
-    </form>
+    <div class="row bg-info">
+        <p>Add your newly found word to your entries. You can even add an example! </p>
+    </div>
+    <div class="'row">
+        <form method="post">
+            {% csrf_token %}
+            {% include 'includes/form.html' %}
+            <button type="submit" class="btn btn-success">Save</button>
+        </form>
+    </div>
 {% endblock %}

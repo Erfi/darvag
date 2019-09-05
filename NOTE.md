@@ -139,6 +139,18 @@ Forms
 
 Django has a forms API. **Use it**. It validates (front and backend) in addition to having modelforms.
 
+- create a form.py and subclass either Form or ModelForm
+- if you are using a ModelForm to directly create a Model you can choose which attributes of the model to be populated 
+by the form. Use a `class Meta:` inside your subclassed form class set `model` and `fields` attributes of the Meta class.
+- **view**
+    - for view function use [This Ofiicial Layout Example](https://docs.djangoproject.com/en/2.2/topics/forms/#the-view)
+    - Notice that the forms API will make validation easy. look into `form.is_valid()` and `form.cleaned_data`
+- **template**
+    - you can access the form in your template through the `{{ form }}` variable and even loop over the fields in the form.
+    - you should always include a `{% csrf_token %}` inside your form tags.
+    - The form variable does not include the HTML <form> tags or the submit button you should write them yourself.
+
+
 
 
 
