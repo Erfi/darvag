@@ -16,9 +16,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from flashcard import views
+from accounts import views as account_views
 
 urlpatterns = [
     path('', views.home, name='home'),
+    path('signup/', account_views.signup, name='signup'),
     path('admin/', admin.site.urls),
     path('entry/add/', views.add_entry, name='add_entry'),
     path('entry/<str:from_lang>/', views.lang_entry, name='lang_entry')
