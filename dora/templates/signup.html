@@ -1,7 +1,16 @@
 {% extends 'base.html' %}
 
+{% load static %}
+
+{% block stylesheet %}
+    <link rel="stylesheet" href="{% static 'css/accounts.css' %}">
+{% endblock stylesheet %}
+
 {% block body %}
     <div class="container">
+        <h1 class="text-center logo my-4">
+            <a href="{% url 'home' %}">Dora The Word Explorer</a>
+        </h1>
         <h2>Sign Up</h2>
         <form method="post" novalidate>
             {% csrf_token %}
