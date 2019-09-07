@@ -22,7 +22,8 @@ from accounts import views as account_views
 urlpatterns = [
     path('', views.home, name='home'),
     path('signup/', account_views.signup, name='signup'),
-    path('logout', auth_views.LogoutView.as_view(), name='logout'),
+    path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
+    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('admin/', admin.site.urls),
     path('entry/add/', views.add_entry, name='add_entry'),
     path('entry/<str:from_lang>/', views.lang_entry, name='lang_entry')
