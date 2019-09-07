@@ -1,16 +1,26 @@
 {% extends 'base.html' %}
 
-{% block title %} Add new entry {% endblock %}
+{% load static %}
+
+{% block stylesheet %}
+    <link rel="stylesheet" href="{% static 'css/app.css' %}">
+{% endblock stylesheet %}
+
+{% block title %} Add new entry {% endblock title %}
 
 {% block content %}
-    <div class="row bg-info">
-        <p>Add your newly found word to your entries. You can even add an example! </p>
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10 col-sm-12">
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="text-center">Add a new entry</h3>
+                    <form method="post" novalidate>
+                        {% csrf_token %}
+                        {% include 'includes/form.html' %}
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="'row">
-        <form method="post">
-            {% csrf_token %}
-            {% include 'includes/form.html' %}
-            <button type="submit" class="btn btn-success">Save</button>
-        </form>
-    </div>
-{% endblock %}
+{% endblock content %}

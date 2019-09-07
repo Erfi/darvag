@@ -16,7 +16,10 @@ def lang_entry(request, from_lang):
 
 
 def add_entry(request):
-    user = User.objects.first() #TODO: change to the authenticated user
+    user = request.user
+    if not user.is_authenticated:
+        return redirect('home')
+
     if request.method == 'POST':
         form = NewEntryForm(request.POST)
         if form.is_valid():
