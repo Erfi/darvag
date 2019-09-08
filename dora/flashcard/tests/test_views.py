@@ -30,22 +30,26 @@ class EntryPageTests(TestCase):
                              )
 
     def test_lang_entry_view_success_status_code(self):
-        url = reverse('lang_entry', kwargs={'from_lang':'english'})
+        url = reverse('lang_entry', kwargs={'from_lang': 'english'})
         response = self.client.get(url)
         self.assertEquals(response.status_code, 200)
-
 
     def test_entry_url_resolves_lang_entry_view(self):
         view = resolve('/entry/english/')
         self.assertEquals(view.func, lang_entry)
 
 
-class EntryFormTests(TestCase):
+class LoggedInUserEntryFormTests(TestCase):
+
+    def setUp(self):
+        user = User.objects.create_user(username='john',
+                                        email='john@snow.com',
+                                        password='snow_123')
+        self.client.login(username='john', password='snow_123')
 
     def test_entry_form_url_resolves_add_entry_view(self):
         view = resolve('/entry/add/')
         self.assertEquals(view.func, add_entry)
-
 
     def test_add_entry_view_status_code(self):
         url = reverse('add_entry')
@@ -59,3 +63,13 @@ class EntryFormTests(TestCase):
         self.assertIsInstance(form, NewEntryForm)
 
 
+class AnonymousUserEntryFormTests(TestCase):
+
+    def test_entry_form_url_resolves_home_view(self):
+        view = resolve('/entry/add/')
+        self.assertEquals(view.func, add_entry)
+
+    def test_add_entry_view_status_code(self):
+        url = reverse('add_entry')
+        response = self.client.get(url)
+        self.assertEquals(response.status_code, 302)
