@@ -150,6 +150,30 @@ by the form. Use a `class Meta:` inside your subclassed form class set `model` a
     - you should always include a `{% csrf_token %}` inside your form tags.
     - The form variable does not include the HTML <form> tags or the submit button you should write them yourself.
 
+---
+Authentication
+
+There are a log of moving parts here but these are some of the keywords and highlights.
+
+- Do the authentication as an app. Make an app called `accounts`.
+- Add it to the `INSTALLED_APPS` in settings.py
+- For signing up:
+    - Add the url for `signup`.`
+    - You want the view to return the form:
+        - There is already a `from django.contrib.auth.forms import UserCreationForm` for creating new Users
+- In templates: `{% user.is_authenticated %}` 
+- In views.py: `request.user.is_authenticated`
+- For logging in:
+    - `LOGIN_REDIRECT_URL = 'home'` in settings.py
+    - `path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login')` you don't have to make 
+    your own login view
+- For logging out:
+    - `LOGOUT_REDIRECT_URL = 'home'` in settings.py
+    - `path('logout/', auth_views.LogoutView.as_view(), name='logout')` you don't have to make your own view function.
+    
+---
+
+
 
 
 
