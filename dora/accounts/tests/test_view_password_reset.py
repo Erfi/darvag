@@ -33,11 +33,50 @@ class PasswordResetTests(TestCase):
         self.assertContains(self.response, 'type="email"', 1)
 
 
-#TODO: implement
 class SuccessfulPasswordResetTests(TestCase):
-    pass
+
+    def setUp(self):
+        email = 'jane@doe.com'
+        User.objects.create_user(username='jane', email=email, password='doe_1234')
+        url = reverse('password_reset')
+        self.response = self.client.post(url, data={'email': email})
+
+    def test_redirection(self):
+        """
+        A valid form submission should redirect the user to 'password_reset_done' view
+        """
+        url = reverse('password_reset_done')
+        self.assertRedirects(self.response, url)
+
+    def test_send_password_reset_email(self):
+        self.assertEquals(1, len(mail.outbox))
 
 
-#TODO: implement
 class InvalidPasswordResetTests(TestCase):
-    pass
+    def setUp(self):
+        url = reverse('password_reset')
+        self.response = self.client.post(url, data={'email': 'blabla@foofoo.com'})
+
+    def test_redirection(self):
+        """
+        Even invalid emails in teh database should redirect the user to 'password_reset_done' view
+        """
+        url = reverse('password_reset_done')
+        self.assertRedirects(self.response, url)
+
+    def test_no_reset_email_sent(self):
+        self.assertEquals(0, len(mail.outbox))
+
+
+class PasswordResetDoneTests(TestCase):
+    def setUp(self):
+        url = reverse('password_reset_done')
+        self.response = self.client.get(url)
+
+    def test_status_code(self):
+        self.assertEquals(self.response.status_code, 200)
+
+    def test_view_function(self):
+        view = resolve('/reset/done/')
+        self.assertEquals(view.func.view_class, auth_views.PasswordResetDoneView)
+

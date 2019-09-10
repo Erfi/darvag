@@ -9,11 +9,11 @@
 {% block title %} Add new entry {% endblock title %}
 
 {% block content %}
-    <div class="row justify-content-center">
+    <div class="row justify-content-center mt-5 mb-5">
         <div class="col-lg-8 col-md-10 col-sm-12">
             <div class="card">
                 <div class="card-body">
-                    <h3 class="text-center">Add a new entry</h3>
+                    <h3 class="card-title">Add a new entry</h3>
                     <form method="post" novalidate>
                         {% csrf_token %}
                         {% include 'includes/form.html' %}
