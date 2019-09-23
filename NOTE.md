@@ -173,6 +173,15 @@ There are a log of moving parts here but these are some of the keywords and high
     
 ---
 
+Protecting views from anonymous users
+
+-- use `from django.contrib.auth.decorators import login_required` to import a decorator to put on top of the view 
+function you are trying to protect. if an unauthorized user tries to access a url they will be redirected to the login
+page.
+
+-- in `settings.py` add `LOGIN_URL = 'login'` to the end of the file
+
+---
 
 
 

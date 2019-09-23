@@ -1,8 +1,7 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth.models import User
-from django.http import HttpResponse
 from flashcard.forms import NewEntryForm
 from flashcard.models import Entry
+from django.contrib.auth.decorators import login_required
 
 
 def home(request):
@@ -14,12 +13,8 @@ def lang_entry(request, from_lang):
     entries = Entry.objects.filter(from_lang=from_lang)
     return render(request, 'home.html', {'entries': entries})
 
-
+@login_required
 def add_entry(request):
-    user = request.user
-    if not user.is_authenticated:
-        return redirect('home')
-
     if request.method == 'POST':
         form = NewEntryForm(request.POST)
         if form.is_valid():
@@ -28,7 +23,7 @@ def add_entry(request):
                                          from_word=form.cleaned_data['from_word'],
                                          to_word=form.cleaned_data['to_word'],
                                          from_example=form.cleaned_data['from_example'],
-                                         created_by=user)
+                                         created_by=request.user)
             entry.save()
             return redirect('home')
     else:
