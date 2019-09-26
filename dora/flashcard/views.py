@@ -34,7 +34,8 @@ def add_entry(request):
 
 @login_required
 def dashboard(request):
-    return render(request, 'dashboard.html')
+    users_decks = Deck.objects.filter(created_by=request.user)
+    return render(request, 'dashboard.html', {'decks': users_decks})
 
 
 @login_required
