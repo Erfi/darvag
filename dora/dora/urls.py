@@ -42,7 +42,8 @@ urlpatterns = [
     path('settings/password/done', auth_views.PasswordChangeDoneView.as_view(template_name='password_change_done.html'),
          name='password_change_done'),
     path('admin/', admin.site.urls),
-    path('user/dashboard/<str:userid>', flashcard_views.dashboard, name='dashboard'),
+    path('user/dashboard/', flashcard_views.dashboard, name='dashboard'),
+    path('deck/add/', flashcard_views.add_deck, name='add_deck'),
     path('entry/add/', flashcard_views.add_entry, name='add_entry'),
     path('entry/<str:from_lang>/', flashcard_views.lang_entry, name='lang_entry')
 ]

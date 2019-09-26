@@ -1,5 +1,5 @@
 from django import forms
-from flashcard.models import Entry
+from flashcard.models import Deck, Entry
 
 
 class NewEntryForm(forms.ModelForm):
@@ -8,3 +8,7 @@ class NewEntryForm(forms.ModelForm):
         fields = ['from_lang', 'to_lang', 'from_word', 'to_word', 'from_example']
 
 
+class NewDeckForm(forms.ModelForm):
+    class Meta:
+        model = Deck
+        fields = ['from_lang', 'to_lang']
