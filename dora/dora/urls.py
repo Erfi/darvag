@@ -16,11 +16,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, re_path
 from django.contrib.auth import views as auth_views
-from flashcard import views
+from flashcard import views as flashcard_views
 from accounts import views as account_views
 
 urlpatterns = [
-    path('', views.home, name='home'),
+    path('', flashcard_views.home, name='home'),
     path('signup/', account_views.signup, name='signup'),
     path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
@@ -42,6 +42,7 @@ urlpatterns = [
     path('settings/password/done', auth_views.PasswordChangeDoneView.as_view(template_name='password_change_done.html'),
          name='password_change_done'),
     path('admin/', admin.site.urls),
-    path('entry/add/', views.add_entry, name='add_entry'),
-    path('entry/<str:from_lang>/', views.lang_entry, name='lang_entry')
+    path('user/dashboard/<str:userid>', flashcard_views.dashboard, name='dashboard'),
+    path('entry/add/', flashcard_views.add_entry, name='add_entry'),
+    path('entry/<str:from_lang>/', flashcard_views.lang_entry, name='lang_entry')
 ]

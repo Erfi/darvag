@@ -31,4 +31,9 @@ def add_entry(request):
     return render(request, 'new_entry_form.html', {'form': form})
 
 
+@login_required
+def dashboard(request, userid):
+    return render(request, 'dashboard.html')
+
+
 
