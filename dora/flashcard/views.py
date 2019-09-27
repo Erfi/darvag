@@ -20,8 +20,8 @@ def add_entry(request, deck_id):
     if request.method == 'POST':
         form = NewEntryForm(request.POST)
         if form.is_valid():
-            entry = Entry.objects.create(from_lang=form.cleaned_data['from_lang'],
-                                         to_lang=form.cleaned_data['to_lang'],
+            entry = Entry.objects.create(from_lang=deck.from_lang,
+                                         to_lang=deck.to_lang,
                                          from_word=form.cleaned_data['from_word'],
                                          to_word=form.cleaned_data['to_word'],
                                          from_example=form.cleaned_data['from_example'],
