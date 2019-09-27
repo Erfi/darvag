@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block stylesheet %}
+<link rel="stylesheet" href="{% static 'css/app.css' %}">
+{% endblock stylesheet %}
+
+{% block title %}
+Deck
+{% endblock title %}
+
+{% block content %}
+<div class="row justify-content-end">
+    <div class="col-2">
+        <a href="{% url 'add_entry' deck_id=deck.id %}" class="mt-2 btn btn-outline-secondary">New entry</a>
+    </div>
+</div>
+    {% for entry in entries %}
+        <div class="row justify-content-center">
+            <div class="col">
+                <div class="card border-dark mt-3 mb-3">
+                    <div class="card-body">
+                        <h4 class="card-title">{{entry.from_word}} | {{entry.to_word}}</h4>
+                        <h6 class="text-muted">Example: {{entry.from_example}}</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock content %}

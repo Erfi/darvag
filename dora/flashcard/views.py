@@ -15,7 +15,8 @@ def lang_entry(request, from_lang):
 
 
 @login_required
-def add_entry(request):
+def add_entry(request, deck_id):
+    deck = Deck.objects.get(id=deck_id)
     if request.method == 'POST':
         form = NewEntryForm(request.POST)
         if form.is_valid():
@@ -24,6 +25,7 @@ def add_entry(request):
                                          from_word=form.cleaned_data['from_word'],
                                          to_word=form.cleaned_data['to_word'],
                                          from_example=form.cleaned_data['from_example'],
+                                         deck=deck,
                                          created_by=request.user)
             entry.save()
             return redirect('home')
@@ -51,3 +53,10 @@ def add_deck(request):
     else:
         form = NewDeckForm()
     return render(request, 'new_deck_form.html', {'form': form})
+
+
+@login_required
+def view_deck(request, deck_id):
+    deck = Deck.objects.get(id=deck_id)
+    entries = deck.entries.all()
+    return render(request, 'view_deck.html', {'entries': entries, 'deck':deck})

@@ -43,7 +43,8 @@ urlpatterns = [
          name='password_change_done'),
     path('admin/', admin.site.urls),
     path('user/dashboard/', flashcard_views.dashboard, name='dashboard'),
+    path('deck/<int:deck_id>/', flashcard_views.view_deck, name='view_deck'),
     path('deck/add/', flashcard_views.add_deck, name='add_deck'),
-    path('entry/add/', flashcard_views.add_entry, name='add_entry'),
+    path('entry/add/<int:deck_id>', flashcard_views.add_entry, name='add_entry'),
     path('entry/<str:from_lang>/', flashcard_views.lang_entry, name='lang_entry')
 ]

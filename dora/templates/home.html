@@ -8,20 +8,9 @@
 
 {% block content %}
     <div class="row justify-content-center">
-        {% if user.is_authenticated %}
-            <div class="col-10">
-                <h1 class="text-left">Entries</h1>
-            </div>
-            <div class="col">
-                <form class="form-inline ml-auto">
-                    <a href="{% url 'add_entry' %}" class="mt-2 btn btn-outline-secondary">Add a new entry</a>
-                </form>
-            </div>
-        {% else %}
-            <div class="col">
-                <h1 class="text-left">Entries</h1>
-            </div>
-        {% endif %}
+        <div class="col">
+            <h1 class="text-left">Entries</h1>
+        </div>
     </div>
     <table class="table table-dark">
         <thead>

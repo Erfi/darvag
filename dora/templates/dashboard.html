@@ -1,5 +1,11 @@
 {% extends 'base.html' %}
 
+{% load static %}
+
+{% block stylesheet %}
+    <link rel="stylesheet" href="{% static 'css/app.css' %}">
+{% endblock stylesheet %}
+
 {% block title %}
 Dashboard
 {% endblock title %}
@@ -15,11 +21,13 @@ Dashboard
 <div class="row justify-content-center mt-5">
 {% for deck in decks %}
     <div class="col-lg-4 col-md-6 col-sm-8">
-        <div class="card">
+        <div class="card border-dark mt-3 mb-3">
             <div class="card-body">
-                <h6 class="card-title text-muted">{{ deck.created_at.date }}</h6>
-                <h4 class="text-center">{{deck.from_lang | upper}} > {{deck.to_lang | upper}}</h4>
-                <button href="#" class="btn btn-primary btn-block btn-sm"><i class="fas fa-sign-in-alt"></i></button>
+                <h6 class="card-title text-muted">{{ deck.created_at.date }} | {{deck.get_entry_count}} Entries</h6>
+                <h4 class="text-center">{{deck.from_lang | upper}} to {{deck.to_lang | upper}}</h4>
+                <a class="btn btn-outline-primary btn-block btn-sm" href="{% url 'view_deck' deck_id=deck.id %}" >
+                    <i class="fas fa-sign-in-alt"></i>
+                </a>
             </div>
         </div>
     </div>
