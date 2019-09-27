@@ -28,7 +28,7 @@ def add_entry(request, deck_id):
                                          deck=deck,
                                          created_by=request.user)
             entry.save()
-            return redirect('home')
+            return redirect('view_deck', deck_id=deck.id)
     else:
         form = NewEntryForm()
     return render(request, 'new_entry_form.html', {'form': form})
@@ -59,4 +59,4 @@ def add_deck(request):
 def view_deck(request, deck_id):
     deck = Deck.objects.get(id=deck_id)
     entries = deck.entries.all()
-    return render(request, 'view_deck.html', {'entries': entries, 'deck':deck})
+    return render(request, 'view_deck.html', {'entries': entries, 'deck': deck})
