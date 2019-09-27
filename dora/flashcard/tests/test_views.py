@@ -2,7 +2,7 @@ from django.test import TestCase
 from django.urls import reverse, resolve
 from django.contrib.auth.models import User
 from flashcard.views import home, lang_entry, add_entry
-from flashcard.models import Entry
+from flashcard.models import Entry, Deck
 from flashcard.forms import NewEntryForm
 
 
@@ -46,18 +46,20 @@ class LoggedInUserEntryFormTests(TestCase):
                                         email='john@snow.com',
                                         password='snow_123')
         self.client.login(username='john', password='snow_123')
+        self.deck = Deck.objects.create(from_lang='english', to_lang='spanish', created_by=user)
+        self.deck.save()
 
     def test_entry_form_url_resolves_add_entry_view(self):
-        view = resolve('/entry/add/')
+        view = resolve('/entry/add/{}/'.format(self.deck.id))
         self.assertEquals(view.func, add_entry)
 
     def test_add_entry_view_status_code(self):
-        url = reverse('add_entry')
+        url = reverse('add_entry', kwargs={'deck_id': self.deck.id})
         response = self.client.get(url)
         self.assertEquals(response.status_code, 200)
 
     def test_contains_form(self):
-        url = reverse('add_entry')
+        url = reverse('add_entry', kwargs={'deck_id': self.deck.id})
         response = self.client.get(url)
         form = response.context.get('form')
         self.assertIsInstance(form, NewEntryForm)
@@ -66,10 +68,10 @@ class LoggedInUserEntryFormTests(TestCase):
 class AnonymousUserEntryFormTests(TestCase):
 
     def test_entry_form_url_resolves_home_view(self):
-        view = resolve('/entry/add/')
+        view = resolve('/entry/add/1/')
         self.assertEquals(view.func, add_entry)
 
     def test_add_entry_view_status_code(self):
-        url = reverse('add_entry')
+        url = reverse('add_entry', kwargs={'deck_id': 1})
         response = self.client.get(url)
         self.assertEquals(response.status_code, 302)
