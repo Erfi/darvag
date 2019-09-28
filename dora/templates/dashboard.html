@@ -23,7 +23,20 @@ Dashboard
     <div class="col-lg-4 col-md-6 col-sm-8">
         <div class="card border-dark mt-3 mb-3">
             <div class="card-body">
-                <h6 class="card-title text-muted">{{ deck.created_at.date }} | {{deck.get_entry_count}} Entries</h6>
+                <div class="row justify-content-end card-title">
+                    <div class="col-5">
+                        <a class="btn" style="font-size: 1em; color: LightSkyBlue;" href="#">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                        <a class="btn" style="font-size: 1em; color: IndianRed;" href="#">
+                            <i class="fas fa-trash"></i>
+                        </a>
+                    </div>
+                    <div class="col-5 offset-1 mt-2">
+                        <h6 class="text-muted">{{deck.get_entry_count}} Entries</h6>
+                    </div>
+                </div>
+
                 <h4 class="text-center">{{deck.from_lang | upper}} to {{deck.to_lang | upper}}</h4>
                 <a class="btn btn-outline-primary btn-block btn-sm" href="{% url 'view_deck' deck_id=deck.id %}" >
                     <i class="fas fa-sign-in-alt"></i>
