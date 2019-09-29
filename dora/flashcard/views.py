@@ -1,5 +1,6 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import UpdateView
+from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 
 from flashcard.models import Entry, Deck
@@ -18,7 +19,7 @@ def lang_entry(request, from_lang):
 
 @login_required
 def add_entry(request, deck_id):
-    deck = Deck.objects.get(id=deck_id)
+    deck = get_object_or_404(Deck, id=deck_id)
     if request.method == 'POST':
         form = NewEntryForm(request.POST)
         if form.is_valid():
@@ -64,6 +65,7 @@ def view_deck(request, deck_id):
     return render(request, 'view_deck.html', {'entries': entries, 'deck': deck})
 
 
+@method_decorator(login_required, name='dispatch')
 class DeckUpdateView(UpdateView):
     model = Deck
     fields = ['from_lang', 'to_lang']
@@ -71,14 +73,12 @@ class DeckUpdateView(UpdateView):
     pk_url_kwarg = 'deck_id'
     context_object_name = 'deck'
 
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        return queryset.filter(created_by=self.request.user)
+
     def form_valid(self, form):
         deck = form.save(commit=False)
         deck.created_by = self.request.user
         deck.save()
         return redirect('dashboard')
-
-
-
-
-
-
