@@ -1,7 +1,9 @@
 from django.shortcuts import render, redirect
-from flashcard.forms import NewEntryForm, NewDeckForm
-from flashcard.models import Entry, Deck
+from django.views.generic import UpdateView
 from django.contrib.auth.decorators import login_required
+
+from flashcard.models import Entry, Deck
+from flashcard.forms import NewEntryForm, NewDeckForm
 
 
 def home(request):
@@ -60,3 +62,23 @@ def view_deck(request, deck_id):
     deck = Deck.objects.get(id=deck_id)
     entries = deck.entries.all()
     return render(request, 'view_deck.html', {'entries': entries, 'deck': deck})
+
+
+class DeckUpdateView(UpdateView):
+    model = Deck
+    fields = ['from_lang', 'to_lang']
+    template_name = 'edit_deck.html'
+    pk_url_kwarg = 'deck_id'
+    context_object_name = 'deck'
+
+    def form_valid(self, form):
+        deck = form.save(commit=False)
+        deck.created_by = self.request.user
+        deck.save()
+        return redirect('dashboard')
+
+
+
+
+
+
