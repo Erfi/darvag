@@ -82,3 +82,22 @@ class DeckUpdateView(UpdateView):
         deck.created_by = self.request.user
         deck.save()
         return redirect('dashboard')
+
+
+@method_decorator(login_required, name='dispatch')
+class EntryUpdateView(UpdateView):
+    model = Entry
+    fields = ['from_word', 'to_word', 'from_example']
+    template_name = 'edit_entry.html'
+    pk_url_kwarg = 'entry_id'
+    context_object_name = 'entry'
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        return queryset.filter(created_by=self.request.user)
+
+    def form_valid(self, form):
+        entry = form.save()
+        return redirect('view_deck', deck_id=entry.deck.id)
+
+

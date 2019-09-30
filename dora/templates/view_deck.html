@@ -27,7 +27,7 @@ Deck
                                 <h6 class="text-muted">Example: {{entry.from_example}}</h6>
                             </div>
                             <div class="col-1">
-                                <a class="btn" style="font-size: 1em; color: LightSkyBlue;" href="#">
+                                <a class="btn" style="font-size: 1em; color: LightSkyBlue;" href="{% url 'edit_entry' deck_id=deck.id entry_id=entry.id %}">
                                     <i class="fas fa-edit"></i>
                                 </a>
                                 <a class="btn" style="font-size: 1em; color: IndianRed;" href="#">

@@ -13,7 +13,7 @@ class Deck(models.Model):
 
 
     def __str__(self):
-        return f'{self.from_lang}-->{self.to_lang}'
+        return f'{self.from_lang}-->{self.to_lang} | by: {self.created_by}'
 
 
 class Entry(models.Model):
