@@ -47,6 +47,6 @@ urlpatterns = [
     path('deck/<int:deck_id>/edit/', flashcard_views.DeckUpdateView.as_view(), name='edit_deck'),
     path('deck/add/', flashcard_views.add_deck, name='add_deck'),
     path('deck/<int:deck_id>/add/', flashcard_views.add_entry, name='add_entry'),
-    path('deck/<int:deck_id>/entry/<int:entry_id>/edit', flashcard_views.EntryUpdateView.as_view(), name='edit_entry'),
+    path('deck/<int:deck_id>/entry/<int:entry_id>/edit/', flashcard_views.EntryUpdateView.as_view(), name='edit_entry'),
     path('entry/<str:from_lang>/', flashcard_views.lang_entry, name='lang_entry')
 ]

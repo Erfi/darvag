@@ -79,7 +79,7 @@ class SuccessfulDeckUpdateViewTests(DeckUpdateViewTestCase):
     def setUp(self):
         super().setUp()
         self.client.login(username=self.username, password=self.password)
-        self.response = self.client.post(self.url, {'from_lang': 'narnian', 'to_lang':self.deck.to_lang})
+        self.response = self.client.post(self.url, {'from_lang': 'narnian', 'to_lang': self.deck.to_lang})
 
     def test_redirection(self):
         """

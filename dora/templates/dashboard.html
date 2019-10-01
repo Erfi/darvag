@@ -38,7 +38,7 @@ Dashboard
                 </div>
 
                 <h4 class="text-center">{{deck.from_lang | upper}} to {{deck.to_lang | upper}}</h4>
-                <a class="btn btn-outline-primary btn-block btn-sm" href="{% url 'view_deck' deck_id=deck.id %}" >
+                <a class="btn btn-outline-primary btn-block btn-sm" href="{% url 'view_deck' deck_id=deck.pk %}" >
                     <i class="fas fa-sign-in-alt"></i>
                 </a>
             </div>
