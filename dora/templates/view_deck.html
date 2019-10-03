@@ -30,7 +30,7 @@ Deck
                                 <a class="btn" style="font-size: 1em; color: LightSkyBlue;" href="{% url 'edit_entry' deck_id=deck.id entry_id=entry.id %}">
                                     <i class="fas fa-edit"></i>
                                 </a>
-                                <a class="btn" style="font-size: 1em; color: IndianRed;" href="#">
+                                <a class="btn" style="font-size: 1em; color: IndianRed;" href="{% url 'delete_entry' deck_id=deck.id entry_id=entry.id %}">
                                     <i class="fas fa-trash"></i>
                                 </a>
                             </div>

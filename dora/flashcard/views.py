@@ -113,3 +113,15 @@ class EntryUpdateView(UpdateView):
     def form_valid(self, form):
         entry = form.save()
         return redirect('view_deck', deck_id=entry.deck.id)
+
+
+@method_decorator(login_required, name='dispatch')
+class EntryDeleteView(DeleteView):
+    model = Entry
+    template_name = 'delete_entry.html'
+    pk_url_kwarg = 'entry_id'
+    context_object_name = 'entry'
+
+    def get_success_url(self):
+        deck_id = self.kwargs.get('deck_id')
+        return reverse_lazy('view_deck', kwargs={'deck_id':deck_id})

@@ -19,7 +19,6 @@ from django.contrib.auth import views as auth_views
 from flashcard import views as flashcard_views
 from accounts import views as account_views
 
-
 urlpatterns = [
     path('', flashcard_views.home, name='home'),
     path('signup/', account_views.signup, name='signup'),
@@ -50,5 +49,6 @@ urlpatterns = [
     path('deck/<int:deck_id>/delete/', flashcard_views.DeckDeleteView.as_view(), name='delete_deck'),
     path('deck/<int:deck_id>/add/', flashcard_views.add_entry, name='add_entry'),
     path('deck/<int:deck_id>/entry/<int:entry_id>/edit/', flashcard_views.EntryUpdateView.as_view(), name='edit_entry'),
-    path('entry/<str:from_lang>/', flashcard_views.lang_entry, name='lang_entry')
+    path('deck/<int:deck_id>/entry/<int:entry_id>/delete/', flashcard_views.EntryDeleteView.as_view(),
+         name='delete_entry')
 ]
