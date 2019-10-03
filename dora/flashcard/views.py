@@ -93,9 +93,9 @@ class DeckDeleteView(DeleteView):
     context_object_name = 'deck'
     success_url = reverse_lazy('dashboard')
 
-    def get_object(self, queryset=None):
-        id_ = self.kwargs.get('deck_id')
-        return get_object_or_404(Deck, id=id_)
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        return queryset.filter(created_by=self.request.user)
 
 
 @method_decorator(login_required, name='dispatch')

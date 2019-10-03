@@ -11,7 +11,6 @@ class Deck(models.Model):
     def get_entry_count(self):
         return self.entries.count()
 
-
     def __str__(self):
         return f'{self.from_lang}-->{self.to_lang} | by: {self.created_by}'
 
