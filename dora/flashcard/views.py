@@ -34,7 +34,7 @@ def add_entry(request, deck_id):
             return redirect('view_deck', deck_id=deck.id)
     else:
         form = NewEntryForm()
-    return render(request, 'new_entry_form.html', {'form': form})
+    return render(request, 'new_entry_form.html', {'form': form, 'deck_id': deck_id})
 
 
 @login_required
