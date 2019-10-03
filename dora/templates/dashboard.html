@@ -28,7 +28,7 @@ Dashboard
                         <a class="btn" style="font-size: 1em; color: LightSkyBlue;" href="{% url 'edit_deck' deck_id=deck.id %}">
                             <i class="fas fa-edit"></i>
                         </a>
-                        <a class="btn" style="font-size: 1em; color: IndianRed;" href="#">
+                        <a class="btn" style="font-size: 1em; color: IndianRed;" href="{% url 'delete_deck' deck_id=deck.id %}">
                             <i class="fas fa-trash"></i>
                         </a>
                     </div>

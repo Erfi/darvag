@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.views.generic import UpdateView
+from django.views.generic import UpdateView, DeleteView
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
+from django.urls import reverse_lazy
 
 from flashcard.models import Entry, Deck
 from flashcard.forms import NewEntryForm, NewDeckForm
@@ -85,6 +86,19 @@ class DeckUpdateView(UpdateView):
 
 
 @method_decorator(login_required, name='dispatch')
+class DeckDeleteView(DeleteView):
+    model = Deck
+    template_name = 'delete_deck.html'
+    pk_url_kwarg = 'deck_id'
+    context_object_name = 'deck'
+    success_url = reverse_lazy('dashboard')
+
+    def get_object(self, queryset=None):
+        id_ = self.kwargs.get('deck_id')
+        return get_object_or_404(Deck, id=id_)
+
+
+@method_decorator(login_required, name='dispatch')
 class EntryUpdateView(UpdateView):
     model = Entry
     fields = ['from_word', 'to_word', 'from_example']
@@ -99,5 +113,3 @@ class EntryUpdateView(UpdateView):
     def form_valid(self, form):
         entry = form.save()
         return redirect('view_deck', deck_id=entry.deck.id)
-
-
