@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'widget_tweaks',
 
     'accounts',
-    'flashcard'
+    'flashcard',
+    'tags'
 ]
 
 MIDDLEWARE = [

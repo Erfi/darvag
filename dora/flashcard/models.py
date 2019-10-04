@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+from tags.models import Tag
+
 
 
 class Deck(models.Model):
@@ -21,9 +23,10 @@ class Entry(models.Model):
     from_word = models.CharField(max_length=45)
     to_word = models.CharField(max_length=45)
     from_example = models.TextField(max_length=500, blank=True, null=True)
-    deck = models.ForeignKey(Deck, on_delete=models.CASCADE, related_name='entries', blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='entries')
+    deck = models.ForeignKey(Deck, on_delete=models.CASCADE, related_name='entries', blank=True, null=True)
+    tags = models.ManyToManyField(Tag, related_name='entries')
 
     def __str__(self):
         return f'{self.from_word}-->{self.to_word} | by: {self.created_by}'
