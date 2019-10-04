@@ -3,7 +3,6 @@ from django.contrib.auth.models import User
 from tags.models import Tag
 
 
-
 class Deck(models.Model):
     from_lang = models.CharField(max_length=20)
     to_lang = models.CharField(max_length=20)
