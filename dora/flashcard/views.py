@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.views.generic import UpdateView, DeleteView
+from django.views.generic import UpdateView, DeleteView, ListView
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
@@ -59,11 +59,24 @@ def add_deck(request):
     return render(request, 'new_deck_form.html', {'form': form})
 
 
-@login_required
-def view_deck(request, deck_id):
-    deck = Deck.objects.get(id=deck_id)
-    entries = deck.entries.all()
-    return render(request, 'view_deck.html', {'entries': entries, 'deck': deck})
+@method_decorator(login_required, name='dispatch')
+class EntryListView(ListView):
+    model = Entry
+    context_object_name = 'entries'
+    template_name = 'view_deck.html'
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        deck_id = self.kwargs.get('deck_id')
+        deck = get_object_or_404(Deck, id=deck_id)
+        return queryset.filter(deck=deck)
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(object_list=None, **kwargs)
+        deck_id = self.kwargs.get('deck_id')
+        deck = get_object_or_404(Deck, id=deck_id)
+        context['deck'] = deck
+        return context
 
 
 @method_decorator(login_required, name='dispatch')
