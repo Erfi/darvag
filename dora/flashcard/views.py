@@ -122,6 +122,10 @@ class EntryDeleteView(DeleteView):
     pk_url_kwarg = 'entry_id'
     context_object_name = 'entry'
 
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        return queryset.filter(created_by=self.request.user)
+
     def get_success_url(self):
         deck_id = self.kwargs.get('deck_id')
-        return reverse_lazy('view_deck', kwargs={'deck_id':deck_id})
+        return reverse_lazy('view_deck', kwargs={'deck_id': deck_id})
