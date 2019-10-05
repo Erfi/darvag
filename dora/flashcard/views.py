@@ -72,11 +72,12 @@ def view_deck_filter(request, deck_id):
     if request.method == 'POST':
         form = TagFilterForm(request.POST, tags_queryset=tags_queryset)
         if form.is_valid() and form.is_bound:
+            print(f'cleaned_data: {form.cleaned_data}')
             tag_filter = TagFilter(queryset=entries)
             entries = tag_filter.filter_entries(cleaned_data=form.cleaned_data)
     else:
         form = TagFilterForm(tags_queryset=tags_queryset)
-    return render(request, 'view_deck_filter.html', {'form': form, 'entries': entries})
+    return render(request, 'view_deck.html', {'form': form, 'entries': entries, 'deck': deck})
 
 
 @method_decorator(login_required, name='dispatch')

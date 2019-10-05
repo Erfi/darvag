@@ -1,4 +1,4 @@
-from django.forms import Form, BooleanField
+from django.forms import Form, BooleanField, SelectMultiple
 
 
 class TagFilterForm(Form):
