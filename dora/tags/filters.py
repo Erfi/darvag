@@ -12,4 +12,5 @@ class TagFilter:
             if value:
                 tag_instance = Tag.objects.get(name=tag)
                 tags_list.append(tag_instance)
-        return self.queryset.filter(tags__in=tags_list).distinct()
+
+        return self.queryset if not tags_list else self.queryset.filter(tags__in=tags_list).distinct()

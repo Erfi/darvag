@@ -8,13 +8,8 @@ class TagFilterForm(Form):
 
         self.fields = {}
         for tag in tags_queryset:
-            self.fields[tag.name] = BooleanField(initial=True, label=tag.name, required=False)
+            self.fields[tag.name] = BooleanField(initial=False, label=tag.name, required=False)
 
-    def is_valid(self):
-        """
-        Filter form is always true, even if nothing is selected
-        """
-        return True
 
 
 
