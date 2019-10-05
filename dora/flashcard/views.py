@@ -7,6 +7,11 @@ from django.urls import reverse_lazy
 from flashcard.models import Entry, Deck
 from flashcard.forms import NewEntryForm, NewDeckForm
 
+from tags.models import Tag
+from tags.forms import TagFilterForm
+from tags.filters import TagFilter
+
+
 
 def home(request):
     entries = Entry.objects.all()
@@ -57,6 +62,20 @@ def add_deck(request):
     else:
         form = NewDeckForm()
     return render(request, 'new_deck_form.html', {'form': form})
+
+@login_required
+def view_deck_filter(request, deck_id):
+    deck = get_object_or_404(Deck, id=deck_id)
+    entries = deck.entries.all()
+    tags_queryset = Tag.objects.filter(created_by=request.user)
+
+    if request.method == 'POST':
+        form = TagFilterForm(request.POST, tags_queryset=tags_queryset)
+        tag_filter = TagFilter(queryset=entries)
+        entries = tag_filter.filter_entries(cleaned_data=form.cleaned_data)
+    else:
+        form = TagFilterForm(tags_queryset=tags_queryset)
+    return render(request, 'view_deck_filter.html', {'form': form, 'entries': entries})
 
 
 @method_decorator(login_required, name='dispatch')
