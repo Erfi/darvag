@@ -80,6 +80,7 @@ def view_deck_filter(request, deck_id):
     return render(request, 'view_deck.html', {'form': form, 'entries': entries, 'deck': deck})
 
 
+#TODO: Remove this after all the filtering is done
 @method_decorator(login_required, name='dispatch')
 class EntryListView(ListView):
     model = Entry
