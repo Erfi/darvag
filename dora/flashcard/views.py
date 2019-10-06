@@ -26,8 +26,9 @@ def lang_entry(request, from_lang):
 @login_required
 def add_entry(request, deck_id):
     deck = get_object_or_404(Deck, id=deck_id)
+    tags_queryset = Tag.objects.filter(created_by=request.user).all()
     if request.method == 'POST':
-        form = NewEntryForm(request.POST)
+        form = NewEntryForm(request.POST, tags_queryset=tags_queryset)
         if form.is_valid():
             entry = Entry.objects.create(from_lang=deck.from_lang,
                                          to_lang=deck.to_lang,
@@ -39,7 +40,7 @@ def add_entry(request, deck_id):
             entry.save()
             return redirect('view_deck', deck_id=deck.id)
     else:
-        form = NewEntryForm()
+        form = NewEntryForm(tags_queryset=tags_queryset)
     return render(request, 'new_entry_form.html', {'form': form, 'deck_id': deck_id})
 
 
