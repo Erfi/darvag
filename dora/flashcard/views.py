@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
 
 from flashcard.models import Entry, Deck
-from flashcard.forms import NewEntryForm, NewDeckForm
+from flashcard.forms import NewEntryForm, NewDeckForm, EditEntryForm
 
 from tags.models import Tag
 from tags.forms import TagFilterForm
@@ -137,7 +137,9 @@ class DeckDeleteView(DeleteView):
 @method_decorator(login_required, name='dispatch')
 class EntryUpdateView(UpdateView):
     model = Entry
-    fields = ['from_word', 'to_word', 'from_example', 'tags']
+    # fields = ['from_word', 'to_word', 'from_example']
+
+    form_class = EditEntryForm
 
     template_name = 'edit_entry.html'
     pk_url_kwarg = 'entry_id'
@@ -148,8 +150,17 @@ class EntryUpdateView(UpdateView):
         return queryset.filter(created_by=self.request.user)
 
     def form_valid(self, form):
-        entry = form.save()
+        entry = form.save(commit=False)
+        tags = Tag.get_instances_from_representations(form.cleaned_data['tags'])
+        entry.tags.set(tags)
+        entry.save()
+
         return redirect('view_deck', deck_id=entry.deck.id)
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['tag_queryset'] = Tag.objects.filter(created_by=self.request.user).all()
+        return kwargs
 
 
 @method_decorator(login_required, name='dispatch')

@@ -16,6 +16,22 @@ class NewEntryForm(forms.ModelForm):
         fields = ['from_word', 'to_word', 'from_example', 'tags']
 
 
+class EditEntryForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        tags = self.created_choices_from_tag_queryset(kwargs['tag_queryset'])
+        kwargs.pop('tag_queryset', None)
+        super().__init__(*args, **kwargs)
+        self.fields['tags'] = forms.MultipleChoiceField(choices=tags,
+                                                        widget=forms.SelectMultiple)
+
+    def created_choices_from_tag_queryset(self, tag_queryset):
+        return [(tag, tag.name) for tag in tag_queryset]
+
+    class Meta:
+        model = Entry
+        fields = ['from_word', 'to_word', 'from_example', 'tags']
+
+
 class NewDeckForm(forms.ModelForm):
     class Meta:
         model = Deck
