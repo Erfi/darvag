@@ -137,7 +137,8 @@ class DeckDeleteView(DeleteView):
 @method_decorator(login_required, name='dispatch')
 class EntryUpdateView(UpdateView):
     model = Entry
-    fields = ['from_word', 'to_word', 'from_example']
+    fields = ['from_word', 'to_word', 'from_example', 'tags']
+
     template_name = 'edit_entry.html'
     pk_url_kwarg = 'entry_id'
     context_object_name = 'entry'

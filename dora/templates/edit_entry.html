@@ -3,22 +3,28 @@
 {% load static %}
 
 {% block stylesheet %}
-    <link rel="stylesheet" href="{% static 'css/app.css' %}">
+<link rel="stylesheet" href="{% static 'css/app.css' %}">
 {% endblock stylesheet %}
 
 {% block title %}
-    Edit entry
+Edit entry
 {% endblock title %}
 
 {% block content %}
-    <div class="row justify-content-center mt-5">
-        <div class="col-6">
-            <form method="post" class="mb-4" novalidate>
-                {% csrf_token %}
-                {% include 'includes/form.html' %}
-                <button type="submit" class="btn btn-success">Save changes</button>
-                <a href="{% url 'view_deck' deck_id=entry.deck.id %}" class="btn btn-outline-secondary" role="button">Cancel</a>
-            </form>
+<div class="row justify-content-center mt-5 mb-5">
+    <div class="col-lg-8 col-md-10 col-sm-12">
+        <div class="card">
+            <div class="card-body">
+                <h3 class="card-title">Edit entry</h3>
+                <form method="post" class="mb-4" novalidate>
+                    {% csrf_token %}
+                    {% include 'includes/form.html' %}
+                    <button type="submit" class="btn btn-success">Save changes</button>
+                    <a href="{% url 'view_deck' deck_id=entry.deck.id %}" class="btn btn-outline-secondary"
+                       role="button">Cancel</a>
+                </form>
+            </div>
         </div>
     </div>
+</div>
 {% endblock content %}
