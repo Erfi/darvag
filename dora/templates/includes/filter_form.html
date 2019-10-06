@@ -1,7 +1,16 @@
 {% load form_tags widget_tweaks %}
 
-<div class="btn-group" role="group">
-{% for field in form %}
-        <div class="btn btn-secondary">{{ field.label_tag }} {{ field }} </div>
-{% endfor %}
+{% if form.fields %}
+<div class="row justify-content-center mt-2">
+    <form class="form-inline" method="post" novalidate>
+        {% csrf_token %}
+        <div class="btn-group" role="group">
+            <a href="#" class="btn btn-outline-primary" style="font-size: 2em;"><i class="fas fa-edit"></i></a>
+            {% for field in form %}
+                <div class="btn btn-secondary">{{ field.label_tag }} {{ field }}</div>
+            {% endfor %}
+            <button type="submit" class="btn btn-primary">Filter</button>
+        </div>
+    </form>
 </div>
+{% endif %}
