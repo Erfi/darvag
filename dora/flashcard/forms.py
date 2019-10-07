@@ -6,7 +6,7 @@ class NewEntryForm(forms.ModelForm):
     def __init__(self, *args, tags_queryset, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['tags'] = forms.MultipleChoiceField(choices=self.created_choices_from_tag_queryset(tags_queryset),
-                                                        widget=forms.SelectMultiple)
+                                                        widget=forms.SelectMultiple, required=False)
 
     def created_choices_from_tag_queryset(self, tag_queryset):
         return [(tag, tag.name) for tag in tag_queryset]
@@ -22,7 +22,7 @@ class EditEntryForm(forms.ModelForm):
         kwargs.pop('tag_queryset', None)
         super().__init__(*args, **kwargs)
         self.fields['tags'] = forms.MultipleChoiceField(choices=tags,
-                                                        widget=forms.SelectMultiple)
+                                                        widget=forms.SelectMultiple, required=False)
 
     def created_choices_from_tag_queryset(self, tag_queryset):
         return [(tag, tag.name) for tag in tag_queryset]
