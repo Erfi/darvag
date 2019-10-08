@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block stylesheet %}
+    <link rel="stylesheet" href="{% static 'css/app.css' %}">
+{% endblock stylesheet %}
+
+{% block title %} tags {% endblock title %}
+
+{% block content %}
+    <div class="row justify-content-end">
+        <div class="col-2">
+            <a href="{% url 'create_tag' %}" class="mt-2 btn btn-outline-primary">New tag</a>
+        </div>
+    </div>
+    {% for tag in tags %}
+        <div class="row justify-content-center">
+            <div class="col">
+                <div class="card border-dark mt-3 mb-3">
+                    <div class="card-body">
+                        <div class="row justify-content-end">
+                            <div class="col-11">
+                                <h4 class="card-title">{{tag.name}}</h4>
+                            </div>
+                            <div class="col-1">
+                                <a class="btn" style="font-size: 1em; color: LightSkyBlue;" href="{% url 'update_tag' tag_id=tag.id %}">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <a class="btn" style="font-size: 1em; color: IndianRed;" href="{% url 'delete_tag' tag_id=tag.id %}">
+                                    <i class="fas fa-trash"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock content %}

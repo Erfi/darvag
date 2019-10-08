@@ -6,19 +6,19 @@
     <link rel="stylesheet" href="{% static 'css/app.css' %}">
 {% endblock stylesheet %}
 
-{% block title %} Delete deck {% endblock title %}
+{% block title %} Add new tag {% endblock title %}
 
 {% block content %}
     <div class="row justify-content-center mt-5 mb-5">
         <div class="col-lg-8 col-md-10 col-sm-12">
             <div class="card">
                 <div class="card-body">
-                    <h3 class="card-title">Delete deck</h3>
+                    <h3 class="card-title">Add a new tag</h3>
                     <form method="post" novalidate>
                         {% csrf_token %}
-                        <p>Are you sure you want to delete the following deck: "{{deck}}"?</p>
-                        <input class="btn btn-primary" type="submit" value="Confirm">
-                        <a href="{% url 'dashboard' %}" class="btn btn-secondary">Cancel</a>
+                        {% include 'includes/form.html' %}
+                        <button type="submit" class="btn btn-primary">Save</button>
+                        <a href="{% url 'list_tags' %}" class="btn btn-outline-secondary" role="button">Cancel</a>
                     </form>
                 </div>
             </div>

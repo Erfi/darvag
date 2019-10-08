@@ -65,7 +65,7 @@ def add_deck(request):
     return render(request, 'new_deck_form.html', {'form': form})
 
 @login_required
-def view_deck_filter(request, deck_id):
+def view_deck(request, deck_id):
     deck = get_object_or_404(Deck, id=deck_id)
     entries = deck.entries.all()
     tags_queryset = Tag.objects.filter(created_by=request.user)
@@ -115,9 +115,7 @@ class DeckUpdateView(UpdateView):
         return queryset.filter(created_by=self.request.user)
 
     def form_valid(self, form):
-        deck = form.save(commit=False)
-        deck.created_by = self.request.user
-        deck.save()
+        form.save()
         return redirect('dashboard')
 
 
