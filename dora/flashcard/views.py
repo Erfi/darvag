@@ -18,10 +18,15 @@ def home(request):
     return render(request, 'home.html', {'entries': entries})
 
 
-@login_required
-def dashboard(request):
-    users_decks = Deck.objects.filter(created_by=request.user)
-    return render(request, 'dashboard.html', {'decks': users_decks})
+@method_decorator(login_required, name='dispatch')
+class DeckListView(ListView):
+    model = Deck
+    template_name = 'dashboard.html'
+    context_object_name = 'decks'
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        return queryset.filter(created_by=self.request.user)
 
 
 @login_required

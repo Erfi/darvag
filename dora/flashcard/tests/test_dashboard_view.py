@@ -1,14 +1,14 @@
 from django.test import TestCase
 from django.urls import reverse, resolve
 from django.contrib.auth.models import User
-from flashcard.views import dashboard
+from flashcard.views import dashboard, DeckListView
 
 
 class AnonymousUserDashboardTests(TestCase):
 
     def test_dashboard_url_resolves_dashboard_view(self):
         view = resolve('/user/dashboard/')
-        self.assertEquals(view.func, dashboard)
+        self.assertEquals(view.func.view_class, DeckListView)
 
     def test_dashboard_view_status_code(self):
         url = reverse('dashboard')
@@ -23,7 +23,7 @@ class LoggedInUserDashboardTests(TestCase):
 
     def test_dashboard_url_resolves_dashboard_view(self):
         view = resolve('/user/dashboard/')
-        self.assertEquals(view.func, dashboard)
+        self.assertEquals(view.func.view_class, DeckListView)
 
     def test_dashboard_view_status_code(self):
         url = reverse('dashboard')
