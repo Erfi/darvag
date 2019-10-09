@@ -1,12 +1,12 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.views.generic import UpdateView, DeleteView, ListView
+from django.views.generic import UpdateView, DeleteView, ListView, CreateView
 from django.views.generic.base import View
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
 
 from flashcard.models import Entry, Deck
-from flashcard.forms import NewEntryForm, NewDeckForm, EditEntryForm
+from flashcard.forms import CreateEntryForm, NewDeckForm, UpdateEntryForm
 
 from tags.models import Tag
 from tags.forms import TagFilterForm
@@ -16,27 +16,6 @@ from tags.filters import TagFilter
 def home(request):
     entries = Entry.objects.all()
     return render(request, 'home.html', {'entries': entries})
-
-
-@login_required
-def add_entry(request, deck_id):
-    deck = get_object_or_404(Deck, id=deck_id)
-    tags_queryset = Tag.objects.filter(created_by=request.user).all()
-    if request.method == 'POST':
-        form = NewEntryForm(request.POST, tags_queryset=tags_queryset)
-        if form.is_valid():
-            entry = Entry.objects.create(from_lang=deck.from_lang,
-                                         to_lang=deck.to_lang,
-                                         from_word=form.cleaned_data['from_word'],
-                                         to_word=form.cleaned_data['to_word'],
-                                         from_example=form.cleaned_data['from_example'],
-                                         deck=deck,
-                                         created_by=request.user)
-            entry.save()
-            return redirect('view_deck', deck_id=deck.id)
-    else:
-        form = NewEntryForm(tags_queryset=tags_queryset)
-    return render(request, 'new_entry_form.html', {'form': form, 'deck_id': deck_id})
 
 
 @login_required
@@ -60,22 +39,6 @@ def add_deck(request):
     return render(request, 'new_deck_form.html', {'form': form})
 
 
-@login_required
-def view_deck(request, deck_id):
-    deck = get_object_or_404(Deck, id=deck_id)
-    entries = deck.entries.all()
-    tags_queryset = Tag.objects.filter(created_by=request.user)
-
-    if request.method == 'POST':
-        form = TagFilterForm(request.POST, tags_queryset=tags_queryset)
-        if form.is_valid() and form.is_bound:
-            tag_filter = TagFilter(queryset=entries)
-            entries = tag_filter.filter_entries(cleaned_data=form.cleaned_data)
-    else:
-        form = TagFilterForm(tags_queryset=tags_queryset)
-    return render(request, 'view_deck.html', {'form': form, 'entries': entries, 'deck': deck})
-
-
 @method_decorator(login_required, name='dispatch')
 class EntryListView(View):
     def __init__(self, **kwargs):
@@ -88,12 +51,12 @@ class EntryListView(View):
         tags_queryset = Tag.objects.filter(created_by=self.request.user)
         return {'deck': deck, 'entries': entries, 'tags_queryset': tags_queryset}
 
-    def get(self, request,  *args, **kwargs):
+    def get(self, request, *args, **kwargs):
         data = self.get_context_data()
         form = TagFilterForm(tags_queryset=data['tags_queryset'])
         return render(request, self.template_name, {'form': form, 'entries': data['entries'], 'deck': data['deck']})
 
-    def post(self, request,  *args, **kwargs):
+    def post(self, request, *args, **kwargs):
         data = self.get_context_data()
         entries = data['entries']
         form = TagFilterForm(request.POST, tags_queryset=data['tags_queryset'])
@@ -134,12 +97,41 @@ class DeckDeleteView(DeleteView):
 
 
 @method_decorator(login_required, name='dispatch')
+class EntryCreateView(CreateView):
+    model = Entry
+    form_class = CreateEntryForm
+    template_name = 'new_entry_form.html'
+    success_url = reverse_lazy('view_deck', )
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['tag_queryset'] = Tag.objects.filter(created_by=self.request.user).all()
+        return kwargs
+
+    def get_context_data(self, **kwargs):
+        kwargs = super().get_context_data(**kwargs)
+        kwargs['deck_id'] = self.kwargs['deck_id']
+        return kwargs
+
+    def form_valid(self, form):
+        deck = get_object_or_404(Deck, id=self.kwargs['deck_id'])
+        entry = form.save(commit=False)
+        entry.deck = deck
+        entry.from_lang = deck.from_lang
+        entry.to_lang = deck.to_lang
+        entry.created_by = self.request.user
+        entry.save()
+        # --- now that entry has an id we can add the m2m relationship ---
+        tags = Tag.get_instances_from_representations(form.cleaned_data['tags'])
+        entry.tags.set(tags)
+        entry.save()
+        return redirect('view_deck', deck_id=deck.id)
+
+
+@method_decorator(login_required, name='dispatch')
 class EntryUpdateView(UpdateView):
     model = Entry
-    # fields = ['from_word', 'to_word', 'from_example']
-
-    form_class = EditEntryForm
-
+    form_class = UpdateEntryForm
     template_name = 'edit_entry.html'
     pk_url_kwarg = 'entry_id'
     context_object_name = 'entry'

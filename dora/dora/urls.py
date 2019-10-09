@@ -46,10 +46,10 @@ urlpatterns = [
     path('user/dashboard/', flashcard_views.dashboard, name='dashboard'),
 
     path('deck/add/', flashcard_views.add_deck, name='add_deck'),
-    path('deck/<int:deck_id>/', flashcard_views.view_deck, name='view_deck'),
+    path('deck/<int:deck_id>/', flashcard_views.EntryListView.as_view(), name='view_deck'),
     path('deck/<int:deck_id>/edit/', flashcard_views.DeckUpdateView.as_view(), name='edit_deck'),
     path('deck/<int:deck_id>/delete/', flashcard_views.DeckDeleteView.as_view(), name='delete_deck'),
-    path('deck/<int:deck_id>/entry/add/', flashcard_views.add_entry, name='add_entry'),
+    path('deck/<int:deck_id>/entry/add/', flashcard_views.EntryCreateView.as_view(), name='add_entry'),
     path('deck/<int:deck_id>/entry/<int:entry_id>/edit/', flashcard_views.EntryUpdateView.as_view(), name='edit_entry'),
     path('deck/<int:deck_id>/entry/<int:entry_id>/delete/', flashcard_views.EntryDeleteView.as_view(),
          name='delete_entry'),

@@ -1,9 +1,9 @@
 from django.test import TestCase
 from django.urls import reverse, resolve
 from django.contrib.auth.models import User
-from flashcard.views import home, add_entry
+from flashcard.views import home, EntryCreateView
 from flashcard.models import Entry, Deck
-from flashcard.forms import NewEntryForm
+from flashcard.forms import CreateEntryForm
 
 
 class HomeTests(TestCase):
@@ -29,7 +29,7 @@ class LoggedInUserEntryFormTests(TestCase):
 
     def test_entry_form_url_resolves_add_entry_view(self):
         view = resolve('/deck/{}/entry/add/'.format(self.deck.id))
-        self.assertEquals(view.func, add_entry)
+        self.assertEquals(view.func.view_class, EntryCreateView)
 
     def test_add_entry_view_status_code(self):
         url = reverse('add_entry', kwargs={'deck_id': self.deck.id})
@@ -40,14 +40,14 @@ class LoggedInUserEntryFormTests(TestCase):
         url = reverse('add_entry', kwargs={'deck_id': self.deck.id})
         response = self.client.get(url)
         form = response.context.get('form')
-        self.assertIsInstance(form, NewEntryForm)
+        self.assertIsInstance(form, CreateEntryForm)
 
 
 class AnonymousUserEntryFormTests(TestCase):
 
     def test_entry_form_url_resolves_home_view(self):
         view = resolve('/deck/1/entry/add/')
-        self.assertEquals(view.func, add_entry)
+        self.assertEquals(view.func.view_class, EntryCreateView)
 
     def test_add_entry_view_status_code(self):
         url = reverse('add_entry', kwargs={'deck_id': 1})
