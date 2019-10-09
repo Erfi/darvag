@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import UpdateView, DeleteView, ListView
+from django.views.generic.base import View
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
@@ -12,14 +13,8 @@ from tags.forms import TagFilterForm
 from tags.filters import TagFilter
 
 
-
 def home(request):
     entries = Entry.objects.all()
-    return render(request, 'home.html', {'entries': entries})
-
-
-def lang_entry(request, from_lang):
-    entries = Entry.objects.filter(from_lang=from_lang)
     return render(request, 'home.html', {'entries': entries})
 
 
@@ -64,6 +59,7 @@ def add_deck(request):
         form = NewDeckForm()
     return render(request, 'new_deck_form.html', {'form': form})
 
+
 @login_required
 def view_deck(request, deck_id):
     deck = get_object_or_404(Deck, id=deck_id)
@@ -73,7 +69,6 @@ def view_deck(request, deck_id):
     if request.method == 'POST':
         form = TagFilterForm(request.POST, tags_queryset=tags_queryset)
         if form.is_valid() and form.is_bound:
-            print(f'cleaned_data: {form.cleaned_data}')
             tag_filter = TagFilter(queryset=entries)
             entries = tag_filter.filter_entries(cleaned_data=form.cleaned_data)
     else:
@@ -81,25 +76,31 @@ def view_deck(request, deck_id):
     return render(request, 'view_deck.html', {'form': form, 'entries': entries, 'deck': deck})
 
 
-#TODO: Remove this after all the filtering is done
 @method_decorator(login_required, name='dispatch')
-class EntryListView(ListView):
-    model = Entry
-    context_object_name = 'entries'
-    template_name = 'view_deck.html'
+class EntryListView(View):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.template_name = 'view_deck.html'
 
-    def get_queryset(self):
-        queryset = super().get_queryset()
-        deck_id = self.kwargs.get('deck_id')
-        deck = get_object_or_404(Deck, id=deck_id)
-        return queryset.filter(deck=deck)
+    def get_context_data(self):
+        deck = get_object_or_404(Deck, id=self.kwargs['deck_id'])
+        entries = deck.entries.all()
+        tags_queryset = Tag.objects.filter(created_by=self.request.user)
+        return {'deck': deck, 'entries': entries, 'tags_queryset': tags_queryset}
 
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(object_list=None, **kwargs)
-        deck_id = self.kwargs.get('deck_id')
-        deck = get_object_or_404(Deck, id=deck_id)
-        context['deck'] = deck
-        return context
+    def get(self, request,  *args, **kwargs):
+        data = self.get_context_data()
+        form = TagFilterForm(tags_queryset=data['tags_queryset'])
+        return render(request, self.template_name, {'form': form, 'entries': data['entries'], 'deck': data['deck']})
+
+    def post(self, request,  *args, **kwargs):
+        data = self.get_context_data()
+        entries = data['entries']
+        form = TagFilterForm(request.POST, tags_queryset=data['tags_queryset'])
+        if form.is_valid():
+            tag_filter = TagFilter(queryset=data['entries'])
+            entries = tag_filter.filter_entries(cleaned_data=form.cleaned_data)
+        return render(request, self.template_name, {'form': form, 'entries': entries, 'deck': data['deck']})
 
 
 @method_decorator(login_required, name='dispatch')

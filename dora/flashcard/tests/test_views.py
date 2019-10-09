@@ -1,7 +1,7 @@
 from django.test import TestCase
 from django.urls import reverse, resolve
 from django.contrib.auth.models import User
-from flashcard.views import home, lang_entry, add_entry
+from flashcard.views import home, add_entry
 from flashcard.models import Entry, Deck
 from flashcard.forms import NewEntryForm
 
