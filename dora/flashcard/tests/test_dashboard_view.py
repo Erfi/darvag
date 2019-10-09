@@ -1,7 +1,7 @@
 from django.test import TestCase
 from django.urls import reverse, resolve
 from django.contrib.auth.models import User
-from flashcard.views import dashboard, DeckListView
+from flashcard.views import DeckListView
 
 
 class AnonymousUserDashboardTests(TestCase):

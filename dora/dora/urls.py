@@ -45,7 +45,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
     path('user/dashboard/', flashcard_views.DeckListView.as_view(), name='dashboard'),
-    path('deck/add/', flashcard_views.add_deck, name='add_deck'),
+    path('deck/add/', flashcard_views.DeckCreateView.as_view(), name='add_deck'),
     path('deck/<int:deck_id>/', flashcard_views.EntryListView.as_view(), name='view_deck'),
     path('deck/<int:deck_id>/edit/', flashcard_views.DeckUpdateView.as_view(), name='edit_deck'),
     path('deck/<int:deck_id>/delete/', flashcard_views.DeckDeleteView.as_view(), name='delete_deck'),

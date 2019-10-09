@@ -1,8 +1,8 @@
 from django.test import TestCase
 from django.urls import reverse, resolve
 from django.contrib.auth.models import User
-from flashcard.views import add_deck
-from flashcard.forms import NewDeckForm
+from flashcard.views import DeckCreateView
+from flashcard.forms import CreateDeckForm
 from flashcard.models import Deck
 
 
@@ -18,11 +18,11 @@ class DeckFormTests(TestCase):
 
     def test_add_deck_url_resolves_add_deck_view(self):
         view = resolve('/deck/add/')
-        self.assertEquals(view.func, add_deck)
+        self.assertEquals(view.func.view_class, DeckCreateView)
 
     def test_contains_form(self):
         form = self.response.context['form']
-        self.assertIsInstance(form, NewDeckForm)
+        self.assertIsInstance(form, CreateDeckForm)
 
     def test_csrf(self):
         self.assertContains(self.response, 'csrfmiddlewaretoken')

@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
 
 from flashcard.models import Entry, Deck
-from flashcard.forms import CreateEntryForm, NewDeckForm, UpdateEntryForm
+from flashcard.forms import CreateEntryForm, CreateDeckForm, UpdateEntryForm
 
 from tags.models import Tag
 from tags.forms import TagFilterForm
@@ -29,19 +29,17 @@ class DeckListView(ListView):
         return queryset.filter(created_by=self.request.user)
 
 
-@login_required
-def add_deck(request):
-    if request.method == 'POST':
-        form = NewDeckForm(request.POST)
-        if form.is_valid():
-            deck = Deck.objects.create(from_lang=form.cleaned_data['from_lang'],
-                                       to_lang=form.cleaned_data['to_lang'],
-                                       created_by=request.user)
-            deck.save()
-            return redirect('dashboard')
-    else:
-        form = NewDeckForm()
-    return render(request, 'new_deck_form.html', {'form': form})
+@method_decorator(login_required, name='dispatch')
+class DeckCreateView(CreateView):
+    model = Deck
+    template_name = 'new_deck_form.html'
+    form_class = CreateDeckForm
+
+    def form_valid(self, form):
+        deck = form.save(commit=False)
+        deck.created_by = self.request.user
+        deck.save()
+        return redirect('dashboard')
 
 
 @method_decorator(login_required, name='dispatch')

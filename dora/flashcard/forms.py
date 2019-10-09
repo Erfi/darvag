@@ -34,7 +34,7 @@ class UpdateEntryForm(forms.ModelForm):
         fields = ['from_word', 'to_word', 'from_example', 'tags']
 
 
-class NewDeckForm(forms.ModelForm):
+class CreateDeckForm(forms.ModelForm):
     class Meta:
         model = Deck
         fields = ['from_lang', 'to_lang']
