@@ -3,9 +3,14 @@ from django.contrib.auth.models import User
 
 
 class Tag(models.Model):
-    name = models.CharField(max_length=50, unique=True)
+    name = models.CharField(max_length=50)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='tags')
     created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = (
+            ("name", "created_by"),
+        )
 
     def get_count(self):
         return self.entries.count()

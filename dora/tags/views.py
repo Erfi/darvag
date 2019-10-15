@@ -27,7 +27,10 @@ class TagCreateView(CreateView):
     def form_valid(self, form):
         tag = form.save(commit=False)
         tag.created_by = self.request.user
-        tag.save()
+        # ---save the tag if it is unique for the user
+        exists = Tag.objects.filter(name=tag.name, created_by=self.request.user).exists()
+        if not exists:
+            tag.save()
         return redirect('list_tags')
 
 
