@@ -42,3 +42,5 @@ class TagAdditionTests(TestCase):
         self.entry1.tags.add(self.tag2)
         self.assertEquals(self.entry1.tags.count(), 2)
         self.assertEquals(self.tag1.entries.count(), 1)
+
+
