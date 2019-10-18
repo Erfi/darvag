@@ -5,7 +5,6 @@ from django.forms import ModelForm
 
 from tags.models import Tag
 from tags.views import TagCreateView
-from flashcard.models import Entry, Deck
 
 
 class TagCreateTestCase(TestCase):
@@ -60,3 +59,4 @@ class AnonymousUserTagCreateTests(TestCase):
     def test_redirection(self):
         login_url = reverse('login')
         self.assertRedirects(self.response, f'{login_url}?next={self.create_url}')
+        
