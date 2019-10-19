@@ -65,7 +65,7 @@ class EntryListView(View):
         form = TagFilterForm(request.POST, tags_queryset=data['tags_queryset'])
         if form.is_valid():
             tag_filter = TagFilter(queryset=data['entries'])
-            entries = tag_filter.filter_entries(cleaned_data=form.cleaned_data)
+            entries = tag_filter.filter_entries(cleaned_data=form.cleaned_data, user=request.user)
         return render(request, self.template_name, {'form': form, 'entries': entries, 'deck': data['deck']})
 
 
