@@ -125,7 +125,7 @@ class EntryCreateView(CreateView):
         entry.created_by = self.request.user
         entry.save()
         # --- now that entry has an id we can add the m2m relationship ---
-        tags = Tag.get_instances_from_representations(form.cleaned_data['tags'])
+        tags = Tag.get_instances_from_representations(rep_list=form.cleaned_data['tags'], user=self.request.user)
         entry.tags.set(tags)
         entry.save()
         return redirect('view_deck', deck_id=deck.id)
@@ -145,7 +145,7 @@ class EntryUpdateView(UpdateView):
 
     def form_valid(self, form):
         entry = form.save(commit=False)
-        tags = Tag.get_instances_from_representations(form.cleaned_data['tags'])
+        tags = Tag.get_instances_from_representations(rep_list=form.cleaned_data['tags'], user=self.request.user)
         entry.tags.set(tags)
         entry.save()
 

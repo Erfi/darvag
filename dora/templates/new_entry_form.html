@@ -4,7 +4,13 @@
 
 {% block stylesheet %}
     <link rel="stylesheet" href="{% static 'css/app.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap-select.min.css' %}">
 {% endblock stylesheet %}
+
+{% block script %}
+    <script src="{% static 'js/bootstrap-select.min.js' %}"></script>
+    <script> $('select').selectpicker(); </script>
+{% endblock script %}
 
 {% block title %} Add new entry {% endblock title %}
 

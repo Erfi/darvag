@@ -16,14 +16,15 @@ class Tag(models.Model):
         return self.entries.count()
 
     @staticmethod
-    def get_instances_from_representations(rep_list):
+    def get_instances_from_representations(rep_list, user):
         """
+        :param user: the logged in user instance
         :param rep_list: list of [__str__, __str__,...]
         :return: [tag-instance, tag-instance] corresponding to the representation
         """
         result = []
         for rep in rep_list:
-            result.append(Tag.objects.get(name=rep.split('|')[0].strip()))
+            result.append(Tag.objects.get(name=rep.split('|')[0].strip(), created_by=user))
         return result
 
     def __str__(self):
