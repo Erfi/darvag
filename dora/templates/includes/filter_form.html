@@ -1,14 +1,11 @@
-{% load form_tags widget_tweaks %}
 
 <div class="row justify-content-center mt-2">
 {% if form.fields %}
     <form class="form-inline" method="post" novalidate>
         {% csrf_token %}
         <div class="btn-group" role="group">
-            <a href="{% url 'list_tags' %}" class="btn btn-outline-primary" style="font-size: 2em;"><i class="fas fa-edit"></i></a>
-            {% for field in form %}
-                <div class="btn btn-secondary">{{ field.label_tag }} {{ field }}</div>
-            {% endfor %}
+            <a href="{% url 'list_tags' %}" class="btn btn-outline-primary " style="font-size: 1em;"><i class="fas fa-edit"></i></a>
+            {{ form.tags }}
             <button type="submit" class="btn btn-primary">Filter</button>
         </div>
     </form>

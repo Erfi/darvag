@@ -46,7 +46,12 @@ class TagFilterGetRequestTests(TagFilterTestCase):
         self.assertIsInstance(form, TagFilterForm)
 
     def test_form_inputs(self):
-        self.assertContains(self.response, '<input', 3)
+        """
+        one csrf token
+        one select multiple
+        """
+        self.assertContains(self.response, '<input', 1)
+        self.assertContains(self.response, '<select', 1)
 
     def test_listed_entries_no_filter(self):
         """
@@ -60,7 +65,7 @@ class TagFilterPostRequestTests(TagFilterTestCase):
     def setUp(self) -> None:
         super().setUp()
         self.client.login(username=self.username, password=self.password)
-        self.response = self.client.post(self.list_entries_url, data={'tag1': True})
+        self.response = self.client.post(self.list_entries_url, data={'tags': ['tag1 | by: john']})
 
     def test_status_code(self):
         self.assertEquals(self.response.status_code, 200)
@@ -104,14 +109,14 @@ class MultipleUsersTagFilterTests(TagFilterTestCase):
         """
         response = self.client.get(self.list_entries_url)
         form = response.context.get('form')
-        self.assertEquals(len(form.fields), 2)
+        self.assertEquals(len(form.fields['tags'].choices), 2)
 
     def test_multiple_users_with_same_tag_filter(self):
         """
         If two users create two identical tags (same tag name), this should not
         pose any problems when using the filter.
         """
-        response = self.client.post(self.list_entries_url, data={'tag1': True})
+        response = self.client.post(self.list_entries_url, data={'tags': ['tag1 | by: john']})
         self.assertEquals(response.status_code, 200)
         entries = response.context.get('entries')
         self.assertEquals(entries.count(), 1)
