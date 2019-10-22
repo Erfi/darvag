@@ -96,6 +96,7 @@ class SuccessfulEntryUpdateViewTests(EntryUpdateViewTestCase):
         self.entry.refresh_from_db()
         self.assertEquals(self.entry.from_word, 'gol')
 
+
 class UnsuccessfulEntryUpdateViewTest(EntryUpdateViewTestCase):
     def setUp(self):
         super().setUp()
