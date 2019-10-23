@@ -17,6 +17,12 @@
 Deck
 {% endblock title %}
 
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Dashboard</a></li>
+    <li class="breadcrumb-item active">Deck</li>
+{% endblock breadcrumb %}
+
 {% block content %}
 
 {% include 'includes/filter_form.html' %}

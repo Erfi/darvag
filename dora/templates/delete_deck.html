@@ -8,6 +8,12 @@
 
 {% block title %} Delete deck {% endblock title %}
 
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Dashboard</a></li>
+    <li class="breadcrumb-item active">Delete deck</li>
+{% endblock breadcrumb %}
+
 {% block content %}
     <div class="row justify-content-center mt-5 mb-5">
         <div class="col-lg-8 col-md-10 col-sm-12">
