@@ -35,6 +35,10 @@ class TagFilter:
         return intersection
 
     def _intersect_all(self, tags):
+        """
+        :param tags: pyhton list of Tag instances
+        :return: list of item_ids form self.queryset that include all tags
+        """
         # empty query
         if not tags:
             return self.queryset
@@ -48,5 +52,9 @@ class TagFilter:
         return intersection
 
     def filter_entries(self, tags):
+        """
+        :param tags: list of Tag instances
+        :return: list of items from self.queryset that include all tags
+        """
         intersecting_ids = self._intersect_all(tags)
         return self.queryset if not tags else self.queryset.filter(id__in=intersecting_ids).distinct()
