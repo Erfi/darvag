@@ -22,9 +22,7 @@ class EntryUpdateViewTestCase(TestCase):
         self.user.save()
         self.deck = Deck(from_lang='polish', to_lang='baloochi', created_by=self.user)
         self.deck.save()
-        self.entry = Entry(from_lang=self.deck.from_lang,
-                           to_lang=self.deck.to_lang,
-                           from_word='ja',
+        self.entry = Entry(from_word='ja',
                            to_word='ja',
                            from_example='brah',
                            deck=self.deck,

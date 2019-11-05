@@ -17,8 +17,6 @@ class DeleteEntryTestCase(TestCase):
                                         from_lang='farsi',
                                         to_lang='english')
         self.entry = Entry.objects.create(created_by=self.user,
-                                          from_lang=self.deck.from_lang,
-                                          to_lang=self.deck.to_lang,
                                           from_example='this is an example',
                                           deck=self.deck)
         self.url = reverse('delete_entry', kwargs={'deck_id': self.deck.id, 'entry_id': self.entry.id})

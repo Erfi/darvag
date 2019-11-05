@@ -18,8 +18,6 @@ class Deck(models.Model):
 
 
 class Entry(models.Model):
-    from_lang = models.CharField(max_length=45)
-    to_lang = models.CharField(max_length=45)
     from_word = models.CharField(max_length=45)
     to_word = models.CharField(max_length=45)
     from_example = models.TextField(max_length=500, blank=True, null=True)

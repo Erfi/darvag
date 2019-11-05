@@ -20,7 +20,7 @@ class MultipleUsersEntryUpdateViewTestCase(TestCase):
         self.tag2 = Tag.objects.create(name='tagname', created_by=self.user2)  # same tag name as user1's
 
         self.deck1 = Deck.objects.create(from_lang='english', to_lang='farsi', created_by=self.user1)
-        self.entry1 = Entry.objects.create(from_lang=self.deck1.from_lang, to_lang=self.deck1.to_lang, from_word='ja',
+        self.entry1 = Entry.objects.create(from_word='ja',
                                            to_word='yes', created_by=self.user1, deck=self.deck1)
 
         self.update_entry_url = reverse('edit_entry', kwargs={'entry_id': self.entry1.id, 'deck_id': self.deck1.id})

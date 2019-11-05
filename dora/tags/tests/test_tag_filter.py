@@ -16,12 +16,11 @@ class TagFilterTestCase(TestCase):
         self.tag1 = Tag.objects.create(name='tag1', created_by=self.user)
         self.tag2 = Tag.objects.create(name='tag2', created_by=self.user)
         self.deck = Deck.objects.create(from_lang='german', to_lang='english', created_by=self.user)
-        self.entry1 = Entry.objects.create(from_lang=self.deck.from_lang, to_lang=self.deck.to_lang, from_word='ja',
-                                           to_word='yes', from_example='ja genau', created_by=self.user, deck=self.deck)
-        self.entry1.tags.add(self.tag1)
-        self.entry2 = Entry.objects.create(from_lang=self.deck.from_lang, to_lang=self.deck.to_lang, from_word='nein',
-                                           to_word='no', from_example='leider nein', created_by=self.user,
+        self.entry1 = Entry.objects.create(from_word='ja', to_word='yes', from_example='ja genau', created_by=self.user,
                                            deck=self.deck)
+        self.entry1.tags.add(self.tag1)
+        self.entry2 = Entry.objects.create(from_word='nein', to_word='no', from_example='leider nein',
+                                           created_by=self.user, deck=self.deck)
         self.list_entries_url = reverse('view_deck', kwargs={'deck_id': self.deck.id})
 
 
@@ -96,8 +95,8 @@ class MultipleUsersTagFilterTests(TagFilterTestCase):
         self.tag3 = Tag.objects.create(name='tag1', created_by=self.user2)  # similar tag as the user1
         self.tag4 = Tag.objects.create(name='tag4', created_by=self.user2)
         self.deck2 = Deck.objects.create(from_lang='german', to_lang='english', created_by=self.user2)
-        self.entry3 = Entry.objects.create(from_lang=self.deck2.from_lang, to_lang=self.deck2.to_lang, from_word='ja',
-                                           to_word='yes', from_example='ja genau', created_by=self.user2,
+        self.entry3 = Entry.objects.create(from_word='ja', to_word='yes', from_example='ja genau',
+                                           created_by=self.user2,
                                            deck=self.deck2)
         self.entry3.tags.add(self.tag3)
 

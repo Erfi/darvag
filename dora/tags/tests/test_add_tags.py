@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from flashcard.models import Deck, Entry
 from tags.models import Tag
 
+
 class TagAdditionTests(TestCase):
     def setUp(self) -> None:
         self.username = 'jane'
@@ -18,20 +19,16 @@ class TagAdditionTests(TestCase):
                                        name='tag2')
 
         self.deck = Deck.objects.create(created_by=user,
-                                       from_lang='english',
-                                       to_lang='farsi')
+                                        from_lang='english',
+                                        to_lang='farsi')
 
         self.entry1 = Entry.objects.create(created_by=user,
-                                           from_lang=self.deck.from_lang,
-                                           to_lang=self.deck.to_lang,
                                            from_word='yes',
                                            to_word='bale',
                                            from_example='yes bale',
                                            deck=self.deck)
 
         self.entry2 = Entry.objects.create(created_by=user,
-                                           from_lang=self.deck.from_lang,
-                                           to_lang=self.deck.to_lang,
                                            from_word='no',
                                            to_word='na',
                                            from_example='no na',
@@ -42,5 +39,3 @@ class TagAdditionTests(TestCase):
         self.entry1.tags.add(self.tag2)
         self.assertEquals(self.entry1.tags.count(), 2)
         self.assertEquals(self.tag1.entries.count(), 1)
-
-
