@@ -121,8 +121,6 @@ class EntryCreateView(CreateView):
         deck = get_object_or_404(Deck, id=self.kwargs['deck_id'])
         entry = form.save(commit=False)
         entry.deck = deck
-        entry.from_lang = deck.from_lang
-        entry.to_lang = deck.to_lang
         entry.created_by = self.request.user
         entry.save()
         # --- now that entry has an id we can add the m2m relationship ---
