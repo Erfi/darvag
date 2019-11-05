@@ -19,7 +19,7 @@ class DeckUpdateViewTestCase(TestCase):
         user = User.objects.create_user(username=self.username,
                                         email=self.email,
                                         password=self.password)
-        self.deck = Deck(from_lang='kazaki', to_lang='baloochi', created_by=user)
+        self.deck = Deck(name='Initial Name', created_by=user)
         self.deck.save()
         self.url = reverse('edit_deck', kwargs={'deck_id': self.deck.id})
 
@@ -70,16 +70,16 @@ class DeckUpdateViewTests(DeckUpdateViewTestCase):
 
     def test_form_inputs(self):
         """
-        The view must contain three inputs: csrf, from_lang, to_lang
+        The view must contain 2 inputs: csrf, name
         """
-        self.assertContains(self.response, '<input', 3)
+        self.assertContains(self.response, '<input', 2)
 
 
 class SuccessfulDeckUpdateViewTests(DeckUpdateViewTestCase):
     def setUp(self):
         super().setUp()
         self.client.login(username=self.username, password=self.password)
-        self.response = self.client.post(self.url, {'from_lang': 'narnian', 'to_lang': self.deck.to_lang})
+        self.response = self.client.post(self.url, {'name': 'changed'})
 
     def test_redirection(self):
         """
@@ -90,7 +90,7 @@ class SuccessfulDeckUpdateViewTests(DeckUpdateViewTestCase):
 
     def test_post_changed(self):
         self.deck.refresh_from_db()
-        self.assertEquals(self.deck.from_lang, 'narnian')
+        self.assertEquals(self.deck.name, 'changed')
 
 
 class InvalidDeckUpdateViewTests(DeckUpdateViewTestCase):

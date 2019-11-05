@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
 
 from flashcard.models import Entry, Deck
-from flashcard.forms import CreateEntryForm, CreateDeckForm, UpdateEntryForm
+from flashcard.forms import CreateEntryForm, UpdateEntryForm
 
 from tags.models import Tag
 from tags.forms import TagFilterForm
@@ -32,14 +32,44 @@ class DeckListView(ListView):
 @method_decorator(login_required, name='dispatch')
 class DeckCreateView(CreateView):
     model = Deck
+    fields = ['name']
     template_name = 'new_deck_form.html'
-    form_class = CreateDeckForm
 
     def form_valid(self, form):
         deck = form.save(commit=False)
         deck.created_by = self.request.user
         deck.save()
         return redirect('dashboard')
+
+
+@method_decorator(login_required, name='dispatch')
+class DeckUpdateView(UpdateView):
+    model = Deck
+    fields = ['name']
+    template_name = 'edit_deck.html'
+    pk_url_kwarg = 'deck_id'
+    context_object_name = 'deck'
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        return queryset.filter(created_by=self.request.user)
+
+    def form_valid(self, form):
+        form.save()
+        return redirect('dashboard')
+
+
+@method_decorator(login_required, name='dispatch')
+class DeckDeleteView(DeleteView):
+    model = Deck
+    template_name = 'delete_deck.html'
+    pk_url_kwarg = 'deck_id'
+    context_object_name = 'deck'
+    success_url = reverse_lazy('dashboard')
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        return queryset.filter(created_by=self.request.user)
 
 
 @method_decorator(login_required, name='dispatch')
@@ -68,36 +98,6 @@ class EntryListView(View):
             used_tags = Tag.get_instances_from_representations(rep_list=form.cleaned_data['tags'], user=request.user)
             entries = tag_filter.filter_entries(tags=used_tags)
         return render(request, self.template_name, {'form': form, 'entries': entries, 'deck': data['deck']})
-
-
-@method_decorator(login_required, name='dispatch')
-class DeckUpdateView(UpdateView):
-    model = Deck
-    fields = ['from_lang', 'to_lang']
-    template_name = 'edit_deck.html'
-    pk_url_kwarg = 'deck_id'
-    context_object_name = 'deck'
-
-    def get_queryset(self):
-        queryset = super().get_queryset()
-        return queryset.filter(created_by=self.request.user)
-
-    def form_valid(self, form):
-        form.save()
-        return redirect('dashboard')
-
-
-@method_decorator(login_required, name='dispatch')
-class DeckDeleteView(DeleteView):
-    model = Deck
-    template_name = 'delete_deck.html'
-    pk_url_kwarg = 'deck_id'
-    context_object_name = 'deck'
-    success_url = reverse_lazy('dashboard')
-
-    def get_queryset(self):
-        queryset = super().get_queryset()
-        return queryset.filter(created_by=self.request.user)
 
 
 @method_decorator(login_required, name='dispatch')

@@ -1,8 +1,8 @@
 from django.test import TestCase
 from django.urls import reverse, resolve
 from django.contrib.auth.models import User
+from django.forms import ModelForm
 from flashcard.views import DeckCreateView
-from flashcard.forms import CreateDeckForm
 from flashcard.models import Deck
 
 
@@ -22,7 +22,7 @@ class DeckFormTests(TestCase):
 
     def test_contains_form(self):
         form = self.response.context['form']
-        self.assertIsInstance(form, CreateDeckForm)
+        self.assertIsInstance(form, ModelForm)
 
     def test_csrf(self):
         self.assertContains(self.response, 'csrfmiddlewaretoken')

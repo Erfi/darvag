@@ -33,8 +33,3 @@ class UpdateEntryForm(forms.ModelForm):
         model = Entry
         fields = ['from_word', 'to_word', 'from_example', 'tags']
 
-
-class CreateDeckForm(forms.ModelForm):
-    class Meta:
-        model = Deck
-        fields = ['from_lang', 'to_lang']
