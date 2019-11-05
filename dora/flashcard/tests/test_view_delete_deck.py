@@ -15,8 +15,7 @@ class DeleteDeckTestCase(TestCase):
                                              email='jane@doe.com',
                                              password=self.password)
         self.deck = Deck.objects.create(created_by=self.user,
-                                        from_lang='farsi',
-                                        to_lang='english')
+                                        name='deck')
         self.url = reverse('delete_deck', kwargs={'deck_id': self.deck.id})
 
 

@@ -19,7 +19,7 @@ class MultipleUsersEntryUpdateViewTestCase(TestCase):
         self.tag1 = Tag.objects.create(name='tagname', created_by=self.user1)
         self.tag2 = Tag.objects.create(name='tagname', created_by=self.user2)  # same tag name as user1's
 
-        self.deck1 = Deck.objects.create(from_lang='english', to_lang='farsi', created_by=self.user1)
+        self.deck1 = Deck.objects.create(name='deck1', created_by=self.user1)
         self.entry1 = Entry.objects.create(from_word='ja',
                                            to_word='yes', created_by=self.user1, deck=self.deck1)
 

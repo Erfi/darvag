@@ -20,7 +20,7 @@ class EntryUpdateViewTestCase(TestCase):
                                              email=self.email,
                                              password=self.password)
         self.user.save()
-        self.deck = Deck(from_lang='polish', to_lang='baloochi', created_by=self.user)
+        self.deck = Deck(name='deck', created_by=self.user)
         self.deck.save()
         self.entry = Entry(from_word='ja',
                            to_word='ja',

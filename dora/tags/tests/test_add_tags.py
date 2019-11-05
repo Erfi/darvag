@@ -19,8 +19,7 @@ class TagAdditionTests(TestCase):
                                        name='tag2')
 
         self.deck = Deck.objects.create(created_by=user,
-                                        from_lang='english',
-                                        to_lang='farsi')
+                                        name='deck')
 
         self.entry1 = Entry.objects.create(created_by=user,
                                            from_word='yes',

@@ -24,7 +24,7 @@ class LoggedInUserEntryFormTests(TestCase):
                                         email='john@snow.com',
                                         password='snow_123')
         self.client.login(username='john', password='snow_123')
-        self.deck = Deck.objects.create(from_lang='english', to_lang='spanish', created_by=user)
+        self.deck = Deck.objects.create(name='deck', created_by=user)
         self.deck.save()
 
     def test_entry_form_url_resolves_add_entry_view(self):

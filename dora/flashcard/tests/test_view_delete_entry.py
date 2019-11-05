@@ -14,8 +14,7 @@ class DeleteEntryTestCase(TestCase):
                                              email='jane@doe.com',
                                              password=self.password)
         self.deck = Deck.objects.create(created_by=self.user,
-                                        from_lang='farsi',
-                                        to_lang='english')
+                                        name='deck')
         self.entry = Entry.objects.create(created_by=self.user,
                                           from_example='this is an example',
                                           deck=self.deck)

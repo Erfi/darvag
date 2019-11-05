@@ -29,10 +29,10 @@ class DeckFormTests(TestCase):
 
     def test_form_inputs(self):
         """
-        The view must contain three inputs: csrf, from_lang, to_lang
+        The view must contain three inputs: csrf, name
         """
-        self.assertContains(self.response, '<input', 3)
-        self.assertContains(self.response, 'type="text"', 2)
+        self.assertContains(self.response, '<input', 2)
+        self.assertContains(self.response, 'type="text"', 1)
 
 
 class SuccessfulDeckCreationTests(TestCase):
@@ -40,8 +40,7 @@ class SuccessfulDeckCreationTests(TestCase):
         User.objects.create_user(username='jane', email='jane@doe.come', password='doe_123')
         self.client.login(username='jane', password='doe_123')
         url = reverse('add_deck')
-        data = {'from_lang': 'farsi',
-                'to_lang': 'english'}
+        data = {'name': 'deck name here'}
         self.response = self.client.post(url, data)
 
     def test_successful_deck_creation_redirects_to_dashboard(self):

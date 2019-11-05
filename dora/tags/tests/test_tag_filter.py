@@ -15,7 +15,7 @@ class TagFilterTestCase(TestCase):
         self.user = User.objects.create_user(username=self.username, password=self.password, email='john@smith.com')
         self.tag1 = Tag.objects.create(name='tag1', created_by=self.user)
         self.tag2 = Tag.objects.create(name='tag2', created_by=self.user)
-        self.deck = Deck.objects.create(from_lang='german', to_lang='english', created_by=self.user)
+        self.deck = Deck.objects.create(name='deck', created_by=self.user)
         self.entry1 = Entry.objects.create(from_word='ja', to_word='yes', from_example='ja genau', created_by=self.user,
                                            deck=self.deck)
         self.entry1.tags.add(self.tag1)
@@ -94,7 +94,7 @@ class MultipleUsersTagFilterTests(TagFilterTestCase):
         self.user2 = User.objects.create_user(username=self.username2, password=self.password2, email='jane@doe.com')
         self.tag3 = Tag.objects.create(name='tag1', created_by=self.user2)  # similar tag as the user1
         self.tag4 = Tag.objects.create(name='tag4', created_by=self.user2)
-        self.deck2 = Deck.objects.create(from_lang='german', to_lang='english', created_by=self.user2)
+        self.deck2 = Deck.objects.create(name='deck', created_by=self.user2)
         self.entry3 = Entry.objects.create(from_word='ja', to_word='yes', from_example='ja genau',
                                            created_by=self.user2,
                                            deck=self.deck2)
