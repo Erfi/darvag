@@ -16,11 +16,9 @@ Dashboard
 {% endblock breadcrumb %}
 
 {% block content %}
-<div class="row justify-content-end">
+<div class="row">
     <div class="col-2">
-        <form class="form-inline ml-auto">
-            <a href="{% url 'add_deck' %}" class="mt-2 btn btn-outline-primary">New deck</a>
-        </form>
+        <a class="btn btn-primary" href="{% url 'add_deck' %}"><i class="fas fa-plus-square"></i> Create new deck</a>
     </div>
 </div>
 <div class="row justify-content-center mt-5">
@@ -30,12 +28,10 @@ Dashboard
             <div class="card-body">
                 <div class="row justify-content-end card-title">
                     <div class="col-5">
-                        <a class="btn" style="font-size: 1em; color: LightSkyBlue;" href="{% url 'edit_deck' deck_id=deck.id %}">
-                            <i class="fas fa-edit"></i>
-                        </a>
-                        <a class="btn" style="font-size: 1em; color: IndianRed;" href="{% url 'delete_deck' deck_id=deck.id %}">
-                            <i class="fas fa-trash"></i>
-                        </a>
+                        <div class="btn-group">
+                            <a class="btn btn-outline-primary" title="Edit" href="{% url 'edit_deck' deck_id=deck.id %}"><i class="fas fa-edit"></i></a>
+                            <a class="btn btn-outline-danger" title="Delete" href="{% url 'delete_deck' deck_id=deck.id %}"> <i class="fas fa-trash"></i></a>
+                        </div>
                     </div>
                     <div class="col-5 offset-1 mt-2">
                         <h6 class="text-muted">{{deck.get_entry_count}} Entries</h6>

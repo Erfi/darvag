@@ -1,43 +1,44 @@
 {% extends 'base.html' %}
-
+{% load filter_tags %}
 {% load static %}
 
 {% block stylesheet %}
-    <link rel="stylesheet" href="{% static 'css/app.css' %}">
+<link rel="stylesheet" href="{% static 'css/app.css' %}">
 {% endblock stylesheet %}
 
 {% block breadcrumb %}
-     <li class="breadcrumb-item active">Home</li>
+<li class="breadcrumb-item active">Home</li>
 {% endblock breadcrumb %}
 
 {% block content %}
-    <div class="row justify-content-center">
-        <div class="col">
-            <h1 class="text-left">Entries</h1>
+<div class="row justify-content-center">
+    <div class="col">
+        <h1 class="text-left">Entries</h1>
+    </div>
+</div>
+{% for entry in entries %}
+<div class="row justify-content-center">
+    <div class="col">
+        <div class="card border-dark mt-1 mb-1">
+            <div class="card-body">
+                <div class="row justify-content-end">
+                    <div class="col-7">
+                        <h4 class="card-title">{{entry.from_word}} | {{entry.to_word}}</h4>
+                        <h6 class="text-muted">Example: {{entry.from_example}}</h6>
+                    </div>
+                    <div class="col-3">
+                        {% for tag in entry.tags.all %}
+                        <div class="btn btn-outline-info disabled">{{ tag | get_tag_name }}</div>
+                        {% endfor %}
+                    </div>
+                    <div class="col-2">
+                        <h6 class="text-muted">{{ entry.created_at|date:"Y/m/d"|lower }}</h6>
+                        <h6 class="text-muted">{{ entry.created_by }}</h6>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-    <table class="table table-dark">
-        <thead>
-            <th>From</th>
-            <th>To</th>
-            <th>Word</th>
-            <th>Translation</th>
-            <th>Example</th>
-            <th>User</th>
-            <th>Date Added</th>
-        </thead>
-        <tbody>
-        {% for entry in entries %}
-            <tr>
-                <td>{{ entry.from_lang }}</td>
-                <td>{{ entry.to_lang }}</td>
-                <td>{{ entry.from_word }}</td>
-                <td>{{ entry.to_word }}</td>
-                <td>{{ entry.from_example }}</td>
-                <td>{{ entry.created_by }}</td>
-                <td>{{ entry.created_at }}</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+</div>
+{% endfor %}
 {% endblock %}

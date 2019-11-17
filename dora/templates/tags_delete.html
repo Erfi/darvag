@@ -24,7 +24,7 @@
                     <form method="post" novalidate>
                         {% csrf_token %}
                         <p>Are you sure you want to delete the following tag: "{{tag}}"?</p>
-                        <input class="btn btn-primary" type="submit" value="Confirm">
+                        <input class="btn btn-danger" type="submit" value="Delete">
                         <a href="{% url 'list_tags' %}" class="btn btn-secondary">Cancel</a>
                     </form>
                 </div>

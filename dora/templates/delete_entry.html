@@ -22,7 +22,7 @@
                     <form method="post" novalidate>
                         {% csrf_token %}
                         <p>Are you sure you want to delete the following entry: "{{entry}}"?</p>
-                        <input class="btn btn-primary" type="submit" value="Confirm">
+                        <input class="btn btn-danger" type="submit" value="Delete">
                         <a href="{% url 'view_deck' deck_id=entry.deck.id %}" class="btn btn-secondary">Cancel</a>
                     </form>
                 </div>

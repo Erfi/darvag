@@ -23,7 +23,7 @@
                     <form method="post" novalidate>
                         {% csrf_token %}
                         <p>Are you sure you want to delete the following deck: "{{deck}}"?</p>
-                        <input class="btn btn-primary" type="submit" value="Confirm">
+                        <input class="btn btn-danger" type="submit" value="Delete">
                         <a href="{% url 'dashboard' %}" class="btn btn-secondary">Cancel</a>
                     </form>
                 </div>

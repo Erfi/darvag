@@ -15,32 +15,30 @@
 {% endblock breadcrumb %}
 
 {% block content %}
-    <div class="row justify-content-end">
+    <div class="row">
         <div class="col-2">
-            <a href="{% url 'create_tag' %}" class="mt-2 btn btn-outline-primary">New tag</a>
+            <a class="btn btn-primary" href="{% url 'create_tag' %}"><i class="fas fa-plus-square"></i> Create new tag</a>
         </div>
     </div>
+<div class="row justify-content-center mt-5">
     {% for tag in tags %}
-        <div class="row justify-content-center">
-            <div class="col">
-                <div class="card border-dark mt-3 mb-3">
+            <div class="col-lg-4 col-md-6 col-sm-8">
+                <div class="card border-dark mt-1 mb-1">
                     <div class="card-body">
-                        <div class="row justify-content-end">
-                            <div class="col-11">
+                        <div class="row card-title">
+                            <div class="col-8">
                                 <h4 class="card-title">{{tag.name}}</h4>
                             </div>
                             <div class="col-1">
-                                <a class="btn" style="font-size: 1em; color: LightSkyBlue;" href="{% url 'update_tag' tag_id=tag.id %}">
-                                    <i class="fas fa-edit"></i>
-                                </a>
-                                <a class="btn" style="font-size: 1em; color: IndianRed;" href="{% url 'delete_tag' tag_id=tag.id %}">
-                                    <i class="fas fa-trash"></i>
-                                </a>
+                                <div class="btn-group">
+                                    <a class="btn btn-outline-primary" title="Edit" href="{% url 'update_tag' tag_id=tag.id %}"><i class="fas fa-edit"></i></a>
+                                    <a class="btn btn-outline-danger" title="Delete" href="{% url 'delete_tag' tag_id=tag.id %}"> <i class="fas fa-trash"></i></a>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
     {% endfor %}
+</div>
 {% endblock content %}
