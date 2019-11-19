@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils.html import mark_safe
+from markdown import markdown
 from tags.models import Tag
 
 
@@ -23,6 +25,9 @@ class Entry(models.Model):
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='entries')
     deck = models.ForeignKey(Deck, on_delete=models.CASCADE, related_name='entries', blank=True, null=True)
     tags = models.ManyToManyField(Tag, related_name='entries')
+
+    def get_from_example_as_markdown(self):
+        return mark_safe(markdown(self.from_example, safe_mode='escape'))
 
     def __str__(self):
         return f'{self.from_word}-->{self.to_word} | by: {self.created_by}'
