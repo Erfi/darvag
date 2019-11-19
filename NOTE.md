@@ -186,6 +186,9 @@ as follows: `<input type="hidden" name="next" value="{{ next }}">`
 
 ---
 
+# Deployement to Heroku:
+
+- [useful link for Postgre db](https://medium.com/agatha-codes/9-straightforward-steps-for-deploying-your-django-app-with-heroku-82b952652fb4)
 
 
 
