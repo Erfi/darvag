@@ -38,16 +38,16 @@ Deck
                 <div class="card border-dark mt-1 mb-1">
                     <div class="card-body">
                         <div class="row justify-content-center">
-                            <div class="col-8" data-toggle="modal" data-target="#{{entry.from_word}}_{{entry.to_word}}">
+                            <div class="col-6" data-toggle="modal" data-target="#{{entry.from_word}}_{{entry.to_word}}">
                                 <h4 class="card-title">{{entry.from_word}} | {{entry.to_word}}</h4>
                                 <h6 class="text-muted">{{entry.from_example|truncatechars:60}}</h6>
                             </div>
-                            <div class="col-2">
+                            <div class="col-4">
                                 {% for tag in entry.tags.all %}
                                     <div class="btn btn-outline-info disabled">{{ tag | get_tag_name }} </div>
                                 {% endfor %}
                             </div>
-                            <div class="col-1">
+                            <div class="col-2">
                                 <div class="btn-group-vertical">
                                     <a class="btn btn-outline-primary" title="Edit" href="{% url 'edit_entry' deck_id=deck.id entry_id=entry.id %}"><i class="fas fa-edit"></i></a>
                                     <a class="btn btn-outline-danger" title="Delete" href="{% url 'delete_entry' deck_id=deck.id entry_id=entry.id %}"> <i class="fas fa-trash"></i></a>
