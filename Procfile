@@ -1,1 +1,1 @@
-web: cd darvag && gunicorn darvag.darvag.wsgi --log-file -
+web: cd darvag && gunicorn darvag.wsgi --log-file -
