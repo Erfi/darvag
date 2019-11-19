@@ -27,7 +27,7 @@ class Entry(models.Model):
     tags = models.ManyToManyField(Tag, related_name='entries')
 
     def get_from_example_as_markdown(self):
-        return mark_safe(markdown(self.from_example, safe_mode='escape'))
+        return mark_safe(markdown(self.from_example, extensions=['tables'], safe_mode='escape'))
 
     def __str__(self):
         return f'{self.from_word}-->{self.to_word} | by: {self.created_by}'
