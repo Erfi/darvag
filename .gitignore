@@ -105,3 +105,6 @@ venv.bak/
 
 #pycahrm
 .idea/
+
+# static files from running 'collectstatic'
+darvag/staticfiles/
