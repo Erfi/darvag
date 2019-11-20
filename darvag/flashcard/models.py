@@ -20,7 +20,7 @@ class Deck(models.Model):
 class Entry(models.Model):
     from_word = models.CharField(max_length=45)
     to_word = models.CharField(max_length=45)
-    from_example = models.TextField(max_length=500, blank=True, null=True)
+    from_example = models.TextField(max_length=2000, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='entries')
     deck = models.ForeignKey(Deck, on_delete=models.CASCADE, related_name='entries', blank=True, null=True)
