@@ -2,6 +2,18 @@
 {% load filter_tags %}
 {% load static %}
 
+{% block google_analytics %}
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-88572039-2"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-88572039-2');
+    </script>
+{% endblock google_analytics %}
+
 {% block stylesheet %}
 <link rel="stylesheet" href="{% static 'css/app.css' %}">
 {% endblock stylesheet %}
