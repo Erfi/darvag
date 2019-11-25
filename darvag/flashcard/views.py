@@ -14,7 +14,7 @@ from tags.filters import TagFilter
 
 
 def home(request):
-    entries = Entry.objects.all()
+    entries = Entry.objects.order_by('created_at').reverse()
     return render(request, 'home.html', {'entries': entries})
 
 
