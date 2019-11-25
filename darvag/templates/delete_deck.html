@@ -22,6 +22,7 @@
                     <h3 class="card-title">Delete deck</h3>
                     <form method="post" novalidate>
                         {% csrf_token %}
+                        <p>Deleting the deck will also delete all the entries inside it.</p>
                         <p>Are you sure you want to delete the following deck: "{{deck}}"?</p>
                         <input class="btn btn-danger" type="submit" value="Delete">
                         <a href="{% url 'dashboard' %}" class="btn btn-secondary">Cancel</a>
