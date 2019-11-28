@@ -22,7 +22,7 @@ Edit entry
 {% block breadcrumb %}
     <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
     <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Dashboard</a></li>
-    <li class="breadcrumb-item"><a href="{% url 'view_deck' deck_id=entry.deck.id%}">Deck</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'view_deck' deck_id=entry.deck.id%}">{{entry.deck.name}}</a></li>
     <li class="breadcrumb-item active">Update entry</li>
 {% endblock breadcrumb %}
 

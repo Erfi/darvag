@@ -95,7 +95,7 @@ class EntryListView(View):
         form = TagFilterForm(request.POST, tags_queryset=data['tags_queryset'])
         if form.is_valid():
             tag_filter = TagFilter(queryset=data['entries'])
-            used_tags = Tag.get_instances_from_representations(rep_list=form.cleaned_data['tags'], user=request.user)
+            used_tags = Tag.objects.filter(id__in=form.cleaned_data['tags'])
             entries = tag_filter.filter_entries(tags=used_tags)
         return render(request, self.template_name, {'form': form, 'entries': entries, 'deck': data['deck']})
 
@@ -110,24 +110,23 @@ class EntryCreateView(CreateView):
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
         kwargs['tag_queryset'] = Tag.objects.filter(created_by=self.request.user).all()
+        kwargs['deck_queryset'] = Deck.objects.filter(created_by=self.request.user).all()
         return kwargs
 
     def get_context_data(self, **kwargs):
         kwargs = super().get_context_data(**kwargs)
-        kwargs['deck_id'] = self.kwargs['deck_id']
+        kwargs['deck'] = get_object_or_404(Deck, id=self.kwargs['deck_id'])
         return kwargs
 
     def form_valid(self, form):
-        deck = get_object_or_404(Deck, id=self.kwargs['deck_id'])
         entry = form.save(commit=False)
-        entry.deck = deck
         entry.created_by = self.request.user
         entry.save()
         # --- now that entry has an id we can add the m2m relationship ---
-        tags = Tag.get_instances_from_representations(rep_list=form.cleaned_data['tags'], user=self.request.user)
+        tags = Tag.objects.filter(id__in=form.cleaned_data['tags'])
         entry.tags.set(tags)
         entry.save()
-        return redirect('view_deck', deck_id=deck.id)
+        return redirect('view_deck', deck_id=entry.deck.id)
 
 
 @method_decorator(login_required, name='dispatch')
@@ -144,15 +143,15 @@ class EntryUpdateView(UpdateView):
 
     def form_valid(self, form):
         entry = form.save(commit=False)
-        tags = Tag.get_instances_from_representations(rep_list=form.cleaned_data['tags'], user=self.request.user)
+        tags = Tag.objects.filter(id__in=form.cleaned_data['tags'])
         entry.tags.set(tags)
         entry.save()
-
-        return redirect('view_deck', deck_id=entry.deck.id)
+        return redirect('view_deck', deck_id=self.kwargs['deck_id'])
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
         kwargs['tag_queryset'] = Tag.objects.filter(created_by=self.request.user).all()
+        kwargs['deck_queryset'] = Deck.objects.filter(created_by=self.request.user).all()
         return kwargs
 
 

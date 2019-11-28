@@ -2,34 +2,42 @@ from django import forms
 from flashcard.models import Deck, Entry
 
 
+# --- customizations ---
+class EntryModelChoiceField(forms.ModelChoiceField):
+    def label_from_instance(self, deck):
+        return deck.name
+
+
+class EntryModelMultipleChoiceField(forms.ModelMultipleChoiceField):
+    def label_from_instance(self, tag):
+        return tag.name
+
+
+# ----------------------
+
+
 class CreateEntryForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
-        tags_queryset = kwargs.pop('tag_queryset', None)
-        tags = self.created_choices_from_tag_queryset(tags_queryset)
+        tags = kwargs.pop('tag_queryset', None)
+        decks = kwargs.pop('deck_queryset', None)
         super().__init__(*args, **kwargs)
-        self.fields['tags'] = forms.MultipleChoiceField(choices=tags,
-                                                        widget=forms.SelectMultiple, required=False)
-
-    def created_choices_from_tag_queryset(self, tag_queryset):
-        return [(tag, tag.name) for tag in tag_queryset]
+        self.fields['tags'] = EntryModelMultipleChoiceField(queryset=tags, widget=forms.SelectMultiple, required=False)
+        self.fields['deck'] = EntryModelChoiceField(queryset=decks, widget=forms.Select, required=True)
 
     class Meta:
         model = Entry
-        fields = ['from_word', 'to_word', 'from_example', 'tags']
+        fields = ['from_word', 'to_word', 'from_example', 'deck', 'tags']
 
 
 class UpdateEntryForm(forms.ModelForm):
-    def __init__(self, *args, **kwargs):
-        tags = self.created_choices_from_tag_queryset(kwargs['tag_queryset'])
-        kwargs.pop('tag_queryset', None)
-        super().__init__(*args, **kwargs)
-        self.fields['tags'] = forms.MultipleChoiceField(choices=tags,
-                                                        widget=forms.SelectMultiple, required=False)
 
-    def created_choices_from_tag_queryset(self, tag_queryset):
-        return [(tag, tag.name) for tag in tag_queryset]
+    def __init__(self, *args, **kwargs):
+        tags = kwargs.pop('tag_queryset', None)
+        decks = kwargs.pop('deck_queryset', None)
+        super().__init__(*args, **kwargs)
+        self.fields['tags'] = EntryModelMultipleChoiceField(queryset=tags, widget=forms.SelectMultiple, required=False)
+        self.fields['deck'] = EntryModelChoiceField(queryset=decks, widget=forms.Select, required=True)
 
     class Meta:
         model = Entry
-        fields = ['from_word', 'to_word', 'from_example', 'tags']
-
+        fields = ['from_word', 'to_word', 'from_example', 'deck', 'tags']

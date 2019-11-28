@@ -79,14 +79,15 @@ class AuthorizedEntryUpdateViewTests(EntryUpdateViewTestCase):
         """
         self.assertContains(self.response, '<input', 3)
         self.assertContains(self.response, '<textarea', 1)
-        self.assertContains(self.response, '<select', 1)
+        self.assertContains(self.response, '<select', 2)
 
 
 class SuccessfulEntryUpdateViewTests(EntryUpdateViewTestCase):
     def setUp(self):
         super().setUp()
         self.client.login(username=self.username, password=self.password)
-        self.response = self.client.post(self.url, data={'from_word': 'gol', 'to_word': 'riz', 'example': 'brah'})
+        self.response = self.client.post(self.url,
+                                         data={'from_word': 'gol', 'to_word': 'riz', 'deck': self.deck.id, 'example': 'brah'})
 
     def test_redirection(self):
         deck_view_url = reverse('view_deck', kwargs={'deck_id': self.deck.id})

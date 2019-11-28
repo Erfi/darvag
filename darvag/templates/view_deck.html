@@ -20,7 +20,7 @@ Deck
 {% block breadcrumb %}
     <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
     <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Dashboard</a></li>
-    <li class="breadcrumb-item active">Deck</li>
+    <li class="breadcrumb-item active">{{ deck.name }}</li>
 {% endblock breadcrumb %}
 
 {% block content %}

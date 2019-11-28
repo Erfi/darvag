@@ -64,7 +64,7 @@ class TagFilterPostRequestTests(TagFilterTestCase):
     def setUp(self) -> None:
         super().setUp()
         self.client.login(username=self.username, password=self.password)
-        self.response = self.client.post(self.list_entries_url, data={'tags': ['tag1 | by: john']})
+        self.response = self.client.post(self.list_entries_url, data={'tags': [self.tag1.id]})
 
     def test_status_code(self):
         self.assertEquals(self.response.status_code, 200)
@@ -115,7 +115,7 @@ class MultipleUsersTagFilterTests(TagFilterTestCase):
         If two users create two identical tags (same tag name), this should not
         pose any problems when using the filter.
         """
-        response = self.client.post(self.list_entries_url, data={'tags': ['tag1 | by: john']})
+        response = self.client.post(self.list_entries_url, data={'tags': [self.tag1.id]})
         self.assertEquals(response.status_code, 200)
         entries = response.context.get('entries')
         self.assertEquals(entries.count(), 1)

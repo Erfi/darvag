@@ -29,7 +29,8 @@ class MultipleUsersEntryUpdateViewTestCase(TestCase):
         self.client.login(username=self.username1, password=self.password1)
         response = self.client.post(self.update_entry_url, data={'from_word': 'crazy',
                                                                  'to_word': 'divooneh',
+                                                                 'deck': self.deck1.id,
                                                                  'from_example': 'kholi?',
-                                                                 'tags': 'tagname | by: john'})
+                                                                 'tags': [self.tag1.id]})
         self.entry1.refresh_from_db()
         self.assertEquals(self.entry1.tags.count(), 1)
