@@ -126,7 +126,7 @@ class EntryCreateView(CreateView):
         tags = Tag.objects.filter(id__in=form.cleaned_data['tags'])
         entry.tags.set(tags)
         entry.save()
-        return redirect('view_deck', deck_id=entry.deck.id)
+        return redirect('view_deck', deck_id=self.kwargs['deck_id'])
 
 
 @method_decorator(login_required, name='dispatch')
