@@ -1,4 +1,5 @@
-# Darvag
+# Darvag:
+Corrently hosted at: https://darvag.herokuapp.com/
 
 Flashcard based web-app for learning languages built on Djnago 2.2.
  ---
@@ -12,3 +13,4 @@ Flashcard based web-app for learning languages built on Djnago 2.2.
 - User can assign tags to each entry
 - User can filter the entries in each deck using the tags
 ---
+
